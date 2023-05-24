@@ -24,7 +24,12 @@ public class LoginServlet extends HttpServlet {
         boolean loginSuccessful = checkCredentials(email, password);
 
         if (loginSuccessful) {
-            response.sendRedirect("home.html");
+            // Mostra la pagina di benvenuto
+            response.setContentType("text/html"); // qui in realtà dovrebbe essere un redirect --> response.sendRedirect("home.html"); ma non va
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h2>Benvenuto " + email + "</h2>");
+            out.println("</body></html>");
         } else {
             // Mostra un messaggio di errore
             response.setContentType("text/html");
