@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/servlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
     public void init() throws ServletException {
         // Inizializza il database
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -22,11 +24,13 @@ public class LoginServlet extends HttpServlet {
         boolean loginSuccessful = checkCredentials(email, password);
 
         if (loginSuccessful) {
+            response.sendRedirect("home.html");
+        } else {
             // Mostra un messaggio di errore
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
             out.println("<html><body>");
-            out.println("<h2>Login fatto. wow.</h2>");
+            out.println("<h2>Credenziali errate</h2>");
             out.println("</body></html>");
         }
     }
@@ -36,6 +40,6 @@ public class LoginServlet extends HttpServlet {
         // Restituisce true se la corrispondenza avviene con successo, altrimenti false
 
         // Esempio di implementazione fittizia:
-        return email.equals("esempio@email.com") && password.equals("password");
+        return email.equals("io@email.com") && password.equals("pass");
     }
 }
