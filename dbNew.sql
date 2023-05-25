@@ -76,6 +76,58 @@ create table contiene(
     foreign key (codice_prodotto) references prodotto(codice_prodotto)
 );
 
+-- Popolazione della tabella "fornitore"
+INSERT INTO fornitore (nome_fornitore, valutazione, soglia)
+VALUES ('Fornitore A', 4, 400),
+       ('Fornitore B', 5, 350),
+       ('Fornitore C', 3, 150);
+
+-- Popolazione della tabella "utente"
+INSERT INTO utente (email, nome, cognome, indirizzo, password)
+VALUES ('utente1@example.com', 'Mario', 'Rossi', 'Via Roma 1', 'password1'),
+       ('utente2@example.com', 'Laura', 'Verdi', 'Via Milano 2', 'password2'),
+       ('utente3@example.com', 'Giovanni', 'Bianchi', 'Via Napoli 3', 'password3');
+
+-- Popolazione della tabella "prodotto"
+INSERT INTO prodotto (nome_prodotto, categoria, foto, descrizione)
+VALUES ('Prodotto 1', 'Categoria 1', 'foto1.jpg', 'Descrizione prodotto 1'),
+       ('Prodotto 2', 'Categoria 1', 'foto2.jpg', 'Descrizione prodotto 2'),
+       ('Prodotto 3', 'Categoria 2', 'foto3.jpg', 'Descrizione prodotto 3');
+
+-- Popolazione della tabella "fasce"
+INSERT INTO fasce (codice_fornitore, min, max, prezzo)
+VALUES (1, 1, 10, 100),
+       (1, 11, 20, 90),
+       (2, 1, 5, 50),
+       (2, 6, 10, 45),
+       (2, 11, 15, 40);
+
+-- Popolazione della tabella "ordini"
+INSERT INTO ordini (nome_fornitore, data_spedizione, prezzo_totale, email)
+VALUES ('Fornitore A', '2023-05-20', 440, 'utente1@example.com'),
+       ('Fornitore B', '2023-05-21', 360, 'utente2@example.com');
+
+-- Popolazione della tabella "visualizza"
+INSERT INTO visualizza (email, codice_prodotto)
+VALUES ('utente1@example.com', 1),
+       ('utente2@example.com', 2),
+       ('utente3@example.com', 3);
+
+-- Popolazione della tabella "vende"
+INSERT INTO vende (codice_fornitore, codice_prodotto, prezzo, scnto)
+VALUES (1, 1, 100, 0.1),
+       (1, 2, 80, 0.05),
+       (2, 2, 70, 0.15),
+       (2, 3, 60, 0.2);
+
+-- Popolazione della tabella "contiene"
+INSERT INTO contiene (codice_ordine, codice_prodotto, quantita, prezzo_unitario)
+VALUES (1, 1, 2, 100),
+       (1, 2, 3, 80),
+       (2, 2, 1, 70),
+       (2, 3, 4, 60);
+
+
 
 
 
