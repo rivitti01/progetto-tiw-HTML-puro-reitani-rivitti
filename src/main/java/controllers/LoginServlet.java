@@ -17,8 +17,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/login")
+@WebServlet("/Login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
@@ -42,22 +43,29 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Email e password non possono essere vuoti");
+            return;
+        }
+
         // Verifica le credenziali nel database
-        boolean loginSuccessful = false;
+        boolean checkLogin = false;
         try {
-            loginSuccessful = checkCredentials(email, password);
+            checkLogin = checkCredentials(email, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        if (loginSuccessful) {
+        String path;
+        if (checkLogin) {
             // Mostra la pagina di benvenuto
             //response.sendRedirect("home.html");
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h2>Credenziali Corrette!!</h2>");
-            out.println("</body></html>");
+
+            HttpSession session = request.getSession();
+            session.setAttribute("email", email);
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/WEB-INF/home.html");
         } else {
             // Mostra un messaggio di errore
             response.setContentType("text/html");
@@ -71,15 +79,20 @@ public class LoginServlet extends HttpServlet {
     private boolean checkCredentials(String email, String password) throws SQLException {
         CheckCredentials checkCredentials = new CheckCredentials(connection);
         // Effettua la verifica delle credenziali nel database
-        // Restituisce true se la corrispondenza avviene con successo, altrimenti false
 
-        // Esempio di implementazione fittizia:
-        //return email.equals("io@email.com") && password.equals("pass");
-        Utente utente = checkCredentials.checkCredentials(email, password);
-        if (utente != null) {
-            return true;
-        } else {
-            return false;
+         if(checkCredentials.checkCredentials(email, password) != null){
+             return true;
+         }
+         else{
+             return false;
+         }
+    }
+
+    public void destroy() {
+        try {
+            ConnectionHandler.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
