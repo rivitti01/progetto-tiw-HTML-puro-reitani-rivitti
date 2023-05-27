@@ -1,16 +1,15 @@
 package dao;
 
 import beans.Utente;
-import beans.Utente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CheckCredentials {
+public class UserDAO {
     private Connection con;
-    public CheckCredentials(Connection connection) {
+    public UserDAO(Connection connection) {
         this.con = connection;
     }
     public Utente checkCredentials(String email, String password) throws SQLException {

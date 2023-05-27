@@ -3,42 +3,42 @@ package beans;
 import java.util.Date;
 
 public class Ordine {
-    private int codice_ordine;
-    private String nome_fornitore;
-    private Date data_spedizione;
-    private int prezzo_totale;
+    private int codiceOrdine;
+    private String nomeFornitore;
+    private Date dataSpedizione;
+    private int prezzoTotale;
     private String email;
 
-    public int getCodice_ordine() {
-        return codice_ordine;
+    public int getCodiceOrdine() {
+        return codiceOrdine;
     }
 
-    public void setCodice_ordine(int codice_ordine) {
-        this.codice_ordine = codice_ordine;
+    public void setCodiceOrdine(int codiceOrdine) {
+        this.codiceOrdine = codiceOrdine;
     }
 
-    public String getNome_fornitore() {
-        return nome_fornitore;
+    public String getNomeFornitore() {
+        return nomeFornitore;
     }
 
-    public void setNome_fornitore(String nome_fornitore) {
-        this.nome_fornitore = nome_fornitore;
+    public void setNomeFornitore(String nomeFornitore) {
+        this.nomeFornitore = nomeFornitore;
     }
 
-    public Date getData_spedizione() {
-        return data_spedizione;
+    public Date getDataSpedizione() {
+        return dataSpedizione;
     }
 
-    public void setData_spedizione(Date data_spedizione) {
-        this.data_spedizione = data_spedizione;
+    public void setDataSpedizione(Date dataSpedizione) {
+        this.dataSpedizione = dataSpedizione;
     }
 
-    public int getPrezzo_totale() {
-        return prezzo_totale;
+    public int getPrezzoTotale() {
+        return prezzoTotale;
     }
 
-    public void setPrezzo_totale(int prezzo_totale) {
-        this.prezzo_totale = prezzo_totale;
+    public void setPrezzoTotale(int prezzoTotale) {
+        this.prezzoTotale = prezzoTotale;
     }
 
     public String getEmail() {

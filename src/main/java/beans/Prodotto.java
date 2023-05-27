@@ -1,26 +1,26 @@
 package beans;
 
 public class Prodotto {
-    private int codice_prodotto;
-    private String nome_prodotto;
+    private int codiceProdotto;
+    private String nomeProdotto;
     private String categoria;
     private String foto;
     private String descrizione;
 
-    public int getCodice_prodotto() {
-        return codice_prodotto;
+    public int getCodiceProdotto() {
+        return codiceProdotto;
     }
 
-    public void setCodice_prodotto(int codice_prodotto) {
-        this.codice_prodotto = codice_prodotto;
+    public void setCodiceProdotto(int codiceProdotto) {
+        this.codiceProdotto = codiceProdotto;
     }
 
-    public String getNome_prodotto() {
-        return nome_prodotto;
+    public String getNomeProdotto() {
+        return nomeProdotto;
     }
 
-    public void setNome_prodotto(String nome_prodotto) {
-        this.nome_prodotto = nome_prodotto;
+    public void setNomeProdotto(String nomeProdotto) {
+        this.nomeProdotto = nomeProdotto;
     }
 
     public String getCategoria() {

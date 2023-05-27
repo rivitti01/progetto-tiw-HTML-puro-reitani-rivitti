@@ -1,7 +1,6 @@
 package controllers;
 
-import beans.Utente;
-import dao.CheckCredentials;
+import dao.UserDAO;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -77,7 +76,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private boolean checkCredentials(String email, String password) throws SQLException {
-        CheckCredentials checkCredentials = new CheckCredentials(connection);
+        UserDAO checkCredentials = new UserDAO(connection);
         // Effettua la verifica delle credenziali nel database
 
          if(checkCredentials.checkCredentials(email, password) != null){
