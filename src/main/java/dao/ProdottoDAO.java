@@ -32,7 +32,7 @@ public class ProdottoDAO {
         }
     }
 
-    public List<Prodotto> searchByWord (String word) throws SQLException{
+    public List<Prodotto> searchByWord (String word) throws SQLException {
         List<Prodotto> prodotti = new ArrayList<Prodotto>();
         String query = "SELECT codice_prodtto,nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
@@ -48,7 +48,13 @@ public class ProdottoDAO {
         }
         return prodotti;
     }
-
+/*
+        SELECT p.codice_prodotto, p.nome_prodotto, MIN(prezzo)
+        FROM prodotto as p, vende as v
+        where ( nome_prodotto LIKE '%Carbon%' OR descrizione LIKE '%Carbon%')
+        AND p.codice_prodotto = v.codice_prodotto group by p.codice_prodotto, p.nome_prodotto
+        ORDER BY MIN(prezzo) ASC;
+*/
 
     private Prodotto mapRowToProdotto(ResultSet result) throws SQLException {
         Prodotto prodotto = new Prodotto();
