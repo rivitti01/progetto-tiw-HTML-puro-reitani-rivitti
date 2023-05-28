@@ -20,7 +20,7 @@ public class VisualizzaDAO {
         List<Visualizza> visualizzazioni = new ArrayList<Visualizza>();
 
         String query = "SELECT * FROM visualizza WHERE email = ? LIMIT 5";
-        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             try (ResultSet result = pstatement.executeQuery();) {
                 while (result.next()) {

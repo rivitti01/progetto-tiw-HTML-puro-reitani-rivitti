@@ -46,6 +46,22 @@ public class VendeDAO {
         return prodotti;
     }
 
+    public int getPrice(int codiceProdotto, int codiceFornitore) throws SQLException{
+        String query = "SELECT prezzo FROM vende WHERE codice_prodotto = ? AND codice_fornitore = ?";
+        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            pstatement.setInt(1, codiceProdotto);
+            pstatement.setInt(2, codiceFornitore);
+            try (ResultSet result = pstatement.executeQuery();) {
+                if (!result.isBeforeFirst()) // no results, credential check failed
+                    return -1;
+                else {
+                    result.next();
+                    return result.getInt("prezzo");
+                }
+            }
+        }
+    }
+
     private Vende mapRowToVende(ResultSet result) throws SQLException {
         Vende vende = new Vende();
         vende.setCodiceProdotto(result.getInt("codice_prodotto"));
