@@ -2,7 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Prodotti</title>
-    <link rel="stylesheet" href="/CSS/home.css">
+    <style>
+        /* Stili CSS per la menu bar */
+        .menu-bar {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        .menu-bar button {
+            margin-right: 10px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        .search-bar input[type="text"] {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .search-bar button {
+            padding: 5px 10px;
+        }
+        .centered-row {
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
 </head>
 <body>
 <div class="menu-bar">
@@ -14,7 +61,10 @@
     <input type="text" placeholder="Cerca...">
     <button>Cerca</button>
 </div>
-<h1>Prodotti</h1>
+<div class="centered-row">
+<h1>Prodotti </h1>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -31,5 +81,6 @@
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>
