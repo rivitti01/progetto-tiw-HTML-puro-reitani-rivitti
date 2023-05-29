@@ -136,7 +136,13 @@ VALUES ('Fornitore A', '2023-05-20', 440, 'utente1@example.com'),
 -- Popolazione della tabella "visualizza"
 INSERT INTO visualizza (email, codice_prodotto, data)
 VALUES ('utente1@example.com', 1, 20090521153614),
-       ('utente2@example.com', 2, 20090521153614),
+       ('utente1@example.com', 2, 20090522153614),
+       ('utente1@example.com', 3, 20090523153614),
+       ('utente1@example.com', 5, 20090524153614),
+       ('utente1@example.com', 6, 20090525153614),
+       ('utente1@example.com', 8, 20090526153614),
+       ('utente1@example.com', 9, 20090527153614),
+       ('utente2@example.com', 2, 20090528153614),
        ('utente3@example.com', 3, 20050528183614);
 
 -- Popolazione della tabella "vende"
