@@ -19,7 +19,7 @@ public class VisualizzaDAO {
     public List<Visualizza> getLAstFive (String email) throws SQLException{
         List<Visualizza> visualizzazioni = new ArrayList<Visualizza>();
 
-        String query = "SELECT * FROM visualizza WHERE email = ? LIMIT 5";
+        String query = "SELECT * FROM visualizza WHERE email = ? ORDER BY data DESC LIMIT 5";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             try (ResultSet result = pstatement.executeQuery();) {
@@ -34,10 +34,13 @@ public class VisualizzaDAO {
     }
 
     public void addVisualized (String email, int codiceProdotto) throws SQLException{
-        String query = "INSERT INTO visualizza (email, codice_prodotto) VALUES (?, ?)";
+        String query = "DELETE FROM visualizza where email = ? and codice_prodotto = ?;\n" +
+                "INSERT INTO visualizza (email, codice_prodotto) VALUES (?, ?);";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             pstatement.setInt(2, codiceProdotto);
+            pstatement.setString(3, email);
+            pstatement.setInt(4, codiceProdotto);
             pstatement.executeUpdate();
         }
     }
