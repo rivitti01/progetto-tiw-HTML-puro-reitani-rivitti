@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home Page</title>
+    <title>Prodotti</title>
+    <link rel="stylesheet" href="/CSS/home.css">
 </head>
 <body>
-<h1>Benvenuto nella pagina home!</h1>
-<p>Grazie per aver effettuato l'accesso.</p>
+<div class="menu-bar">
+    <button>Carrello</button>
+    <button>Ordini</button>
+</div>
+
+<div class="search-bar">
+    <input type="text" placeholder="Cerca...">
+    <button>Cerca</button>
+</div>
+<h1>Prodotti</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Descrizione</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.nomeProdotto}"></td>
+        <td th:text="${product.categoria}"></td>
+        <td th:text="${product.descrizione}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

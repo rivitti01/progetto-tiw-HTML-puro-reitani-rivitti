@@ -1,5 +1,6 @@
 package controllers;
 
+import beans.Utente;
 import dao.UserDAO;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -59,12 +60,10 @@ public class LoginServlet extends HttpServlet {
         String path;
         if (checkLogin) {
             // Mostra la pagina di benvenuto
-            //response.sendRedirect("home.html");
-
             HttpSession session = request.getSession();
             session.setAttribute("email", email);
-            String contextPath = request.getContextPath();
-            response.sendRedirect(contextPath + "/WEB-INF/home.html");
+            path = getServletContext().getContextPath() + "/Home";
+            response.sendRedirect(path);
         } else {
             // Mostra un messaggio di errore
             response.setContentType("text/html");
@@ -77,9 +76,9 @@ public class LoginServlet extends HttpServlet {
 
     private boolean checkCredentials(String email, String password) throws SQLException {
         UserDAO checkCredentials = new UserDAO(connection);
+        Utente utente = checkCredentials.checkCredentials(email, password);
         // Effettua la verifica delle credenziali nel database
-
-         if(checkCredentials.checkCredentials(email, password) != null){
+         if(utente != null){
              return true;
          }
          else{

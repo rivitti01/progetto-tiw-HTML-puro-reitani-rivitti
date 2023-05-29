@@ -52,7 +52,7 @@ CREATE TABLE fasce(
 create table visualizza(
     email VARCHAR(255),
     codice_prodotto int,
-    data timestamp CURRENT_TIMESTAMP,
+    data timestamp default current_timestamp,
     primary key (email, codice_prodotto),
     foreign key (email) references utente(email),
     foreign key (codice_prodotto) references prodotto(codice_prodotto)

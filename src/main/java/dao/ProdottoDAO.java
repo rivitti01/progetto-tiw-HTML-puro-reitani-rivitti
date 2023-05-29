@@ -2,6 +2,7 @@ package dao;
 
 import beans.Prodotto;
 import beans.Utente;
+import beans.Visualizza;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,6 +65,25 @@ public class ProdottoDAO {
         prodotto.setFoto(result.getString("foto"));
         prodotto.setDescrizione(result.getString("descrizione"));
         return prodotto;
+    }
+    public List<Prodotto> getFiveVisualizedProduct(List<Visualizza> visualizzati) throws SQLException {
+        List<Prodotto> prodotti = new ArrayList<>();
+        String query = "SELECT * FROM prodotto WHERE codice_prodotto = ?";
+        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            for (Visualizza visualizza : visualizzati) {
+                pstatement.setInt(1, visualizza.getCodiceProdotto());
+                try (ResultSet result = pstatement.executeQuery();) {
+                    if (!result.isBeforeFirst()) // no results, credential check failed
+                        return null;
+                    else {
+                        result.next();
+                        Prodotto prodotto = mapRowToProdotto(result);
+                        prodotti.add(prodotto);
+                    }
+                }
+            }
+        }
+        return prodotti;
     }
 
 }
