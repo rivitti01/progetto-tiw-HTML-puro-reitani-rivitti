@@ -1,10 +1,8 @@
 package controllers;
 
 import beans.Prodotto;
-import beans.Utente;
 import beans.Visualizza;
 import dao.ProdottoDAO;
-import dao.UserDAO;
 import dao.VisualizzaDAO;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -13,7 +11,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import utils.ConnectionHandler;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,11 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 @WebServlet("/Home")
-public class Home extends HttpServlet {
+public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private TemplateEngine templateEngine;
-    public Home() {
+    public HomeServlet() {
         super();
     }
     public void init() throws ServletException {
