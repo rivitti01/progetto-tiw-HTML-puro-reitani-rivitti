@@ -52,6 +52,7 @@ CREATE TABLE fasce(
 create table visualizza(
     email VARCHAR(255),
     codice_prodotto int,
+    data timestamp CURRENT_TIMESTAMP,
     primary key (email, codice_prodotto),
     foreign key (email) references utente(email),
     foreign key (codice_prodotto) references prodotto(codice_prodotto)
@@ -133,10 +134,10 @@ VALUES ('Fornitore A', '2023-05-20', 440, 'utente1@example.com'),
        ('Fornitore B', '2023-05-22', 3499, 'utente3@example.com');
 
 -- Popolazione della tabella "visualizza"
-INSERT INTO visualizza (email, codice_prodotto)
-VALUES ('utente1@example.com', 1),
-       ('utente2@example.com', 2),
-       ('utente3@example.com', 3);
+INSERT INTO visualizza (email, codice_prodotto, data)
+VALUES ('utente1@example.com', 1, 20090521153614),
+       ('utente2@example.com', 2, 20090521153614),
+       ('utente3@example.com', 3, 20050528183614);
 
 -- Popolazione della tabella "vende"
 INSERT INTO vende (codice_fornitore, codice_prodotto, prezzo, scnto)
