@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordini</title>
+    <style>
+        .menu-bar {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        .menu-bar button {
+            margin-right: 10px;
+        }
+        .centered-row {
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="menu-bar">
+    <form action="Home" method="GET">
+        <button>Home</button>
+    </form>
+    <form action="Carrello" method="GET">
+        <button>Carrello</button>
+    </form>
+    <form action="Ordini" method="GET">
+        <button>Ordini</button>
+    </form>
+</div>
+
+
+<div class="centered-row">
+    <table>
+        <caption>Ecco i tuoi ordini</caption>
+        <thead>
+    <tr>
+        <th>Codice ordine</th>
+        <th>Nome fornitore</th>
+        <th>Data</th>
+        <th>Prezzo totale</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ordine : ${ordini}">
+        <td th:text="${ordine.codiceOrdine}"></td>
+        <td th:text="${ordine.nomeFornitore}"></td>
+        <td th:text="${ordine.dataSpedizione}"></td>
+        <td th:text="${ordine.prezzoTotale}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

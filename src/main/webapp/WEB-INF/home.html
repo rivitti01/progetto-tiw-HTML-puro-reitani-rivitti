@@ -12,7 +12,6 @@
         .menu-bar button {
             margin-right: 10px;
         }
-
         .search-bar {
             display: flex;
             align-items: center;
@@ -31,6 +30,7 @@
         .search-bar button {
             padding: 5px 10px;
         }
+
         .centered-row {
             display: flex;
             justify-content: center;
@@ -49,24 +49,29 @@
             background-color: #f2f2f2;
         }
 
-
     </style>
 </head>
 <body>
-
 <div class="menu-bar">
-    <button>Carrello</button>
-    <button>Ordini</button>
+    <form action="Home" method="GET">
+        <button>Home</button>
+    </form>
+    <form action="Carrello" method="GET">
+        <button>Carrello</button>
+    </form>
+    <form action="Ordini" method="GET">
+        <button>Ordini</button>
+    </form>
+    <div class="search-bar">
+        <form action="Ricerca" method="GET">
+            <input type="text" placeholder="Cerca...">
+            <button>Cerca</button>
+        </form>
+    </div>
 </div>
 
-<div class="search-bar">
-    <form action="Ricerca" method="GET">
-    <input type="text" placeholder="Cerca...">
-    <button>Cerca </button>
-    </form>
-</div>
 <div class="centered-row">
-<h1>Prodotti </h1>
+<h1>Potrebbe interessarti!</h1>
 </div>
 
 <table>
