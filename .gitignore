@@ -8,7 +8,7 @@ target/
 *.iml
 *.ipr
 .idea/
-WEB-INF/web.xml
+web.xml
 
 ### Eclipse ###
 .apt_generated
