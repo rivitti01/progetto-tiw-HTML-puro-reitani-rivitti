@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Risultati ricerca</title>
+    <style>
+        /* Stili CSS per la menu bar */
+        .menu-bar {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        .menu-bar button {
+            margin-right: 10px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        .search-bar input[type="text"] {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .search-bar button {
+            padding: 5px 10px;
+        }
+        .centered-row {
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Codice</th>
+        <th>Nome</th>
+        <th>Prezzo minimo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="risultato : ${risultati}">
+        <td th:text="${risultato.codiceProdotto}"></td>
+        <td th:text="${risultato.nomeProdotto}"></td>
+        <td th:text="${risultato.prezzo}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
