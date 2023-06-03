@@ -41,11 +41,11 @@ public class OrdiniServlet extends HttpServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("email") == null) {
+        /*if (session.isNew() || session.getAttribute("email") == null) {
             String loginpath = getServletContext().getContextPath() + "/index.html";
             response.sendRedirect(loginpath);
             return;
-        }
+        }*/
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
         List<Ordine> ordini;
