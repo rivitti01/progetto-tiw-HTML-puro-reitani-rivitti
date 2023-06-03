@@ -34,7 +34,6 @@
         .input-container input {
             background-color: #fff;
             padding: 1rem;
-            padding-right: 3rem;
             font-size: 0.875rem;
             line-height: 1.25rem;
             width: 300px;
@@ -67,6 +66,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .error {
+            color: red;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -83,8 +88,11 @@
         <input type="password" id="password" name="password" placeholder="Enter password" required>
     </div>
     <button type="submit" class="submit">
-        Sign in
+        Login
     </button>
+    <div class="error">
+        <p th:class="error" th:text="${error}"></p>
+    </div>
 </form>
 </div>
 </body>

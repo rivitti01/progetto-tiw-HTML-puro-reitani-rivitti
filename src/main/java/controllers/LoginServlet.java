@@ -3,6 +3,7 @@ package controllers;
 import beans.Utente;
 import dao.UserDAO;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import utils.ConnectionHandler;
@@ -42,10 +43,13 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String error;
+        WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Email e password non possono essere vuoti");
+            error = "Email e password sono obbligatorie";
+            ctx.setVariable("error", error);
+            templateEngine.process("/index.html", ctx, response.getWriter());
             return;
         }
 
@@ -66,11 +70,9 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect(path);
         } else {
             // Mostra un messaggio di errore
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h2>Credenziali errate</h2>");
-            out.println("</body></html>");
+            error = "Email e/o password non validi.";
+            ctx.setVariable("error", error);
+            templateEngine.process("/index.html", ctx, response.getWriter());
         }
     }
 
