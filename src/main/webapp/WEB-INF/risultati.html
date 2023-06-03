@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang = it>
 <head>
+
     <title>Risultati ricerca</title>
     <style>
         /* Stili CSS per la menu bar */
@@ -53,16 +54,32 @@
     </style>
 </head>
 <body>
+
+<div class="menu-bar" style="display: flex">
+    <form action="Home" method="GET">
+        <button>Home</button>
+    </form>
+    <form action="Carrello" method="GET">
+        <button>Carrello</button>
+    </form>
+    <form action="Ordini" method="GET">
+        <button>Ordini</button>
+    </form>
+    <form action="Logout" method="GET">
+        <button>Logout</button>
+    </form>
+</div>
+
 <table>
     <thead>
     <tr>
-        <th>Codice</th>
-        <th>Nome</th>
-        <th>Prezzo minimo</th>
+        <th style="width: 25pc">Codice</th>
+        <th style="width: 25pc">Nome</th>
+        <th style="width: 25pc">Prezzo minimo</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="risultato : ${risultati}">
+    <tbody th:each="risultato : ${risultati}">
+    <tr>
         <td th:text="${risultato.codiceProdotto}"></td>
         <td th:text="${risultato.nomeProdotto}"></td>
         <td th:text="${risultato.prezzo}"></td>
