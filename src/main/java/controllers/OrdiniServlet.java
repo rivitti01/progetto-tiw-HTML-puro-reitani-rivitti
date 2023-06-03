@@ -1,6 +1,7 @@
 package controllers;
 
 import beans.Ordine;
+import beans.Prodotto;
 import dao.OrdineDAO;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/Ordini")
 public class OrdiniServlet extends HttpServlet {
@@ -48,11 +50,21 @@ public class OrdiniServlet extends HttpServlet {
         }*/
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
-        List<Ordine> ordini;
+        /*List<Ordine> ordini;
         try {
             ordini = getOrdini(email);
             if (ordini == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "No orders found");
+                return;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
+        Map<Ordine,List<Prodotto>> ordini;
+        try {
+            ordini = getOrdini2(email);
+            if (ordini == null) {
+                ctx.setVariable("error", "No orders found");
                 return;
             }
         } catch (SQLException e) {
@@ -67,6 +79,11 @@ public class OrdiniServlet extends HttpServlet {
         OrdineDAO ordineDAO = new OrdineDAO(connection);
         List<Ordine> ordini = ordineDAO.getOrdersByEmail(email);
         return ordini;
+    }
+    private Map<Ordine,List<Prodotto>> getOrdini2(String email) throws SQLException {
+        OrdineDAO ordineDAO = new OrdineDAO(connection);
+        Map<Ordine,List<Prodotto>> ordini2 = ordineDAO.getOrdersByEmail2(email);
+        return ordini2;
     }
     public void destroy() {
         try {

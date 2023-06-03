@@ -16,6 +16,9 @@
             display: flex;
             justify-content: center;
         }
+        .separator {
+            background-color: #f2f2f2;
+        }
         table {
             margin: 0 auto;
             border-collapse: collapse;
@@ -44,29 +47,57 @@
     <form action="Ordini" method="GET">
         <button>Ordini</button>
     </form>
+    <form action="Logout" method="GET">
+        <button>Logout</button>
+    </form>
 </div>
 
+<!--<div th:each="ordine :${ordini}" style="background:cornsilk">
+
+<p class="centered-row" th:text="'Codice ordine:  '+${ordine.key.codiceOrdine}+'  Nome Fornitore:  '+${ordine.key.nomeFornitore}+'  Data Spedizione:  '+ ${ordine.key.dataSpedizione}+'  Totale Ordine:  '+ ${ordine.key.prezzoTotale}+ '  Email Ordine:  '+${ordine.key.email} "></p>
+    <ul>
+        <li class="centered-row" th:each="product : ${ordine.value}" th:text="${product.nomeProdotto}"></li>
+    </ul>
+
+</div>-->
 
 <div class="centered-row">
     <table>
         <caption>Ecco i tuoi ordini</caption>
         <thead>
-    <tr>
-        <th>Codice ordine</th>
-        <th>Nome fornitore</th>
-        <th>Data</th>
-        <th>Prezzo totale</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="ordine : ${ordini}">
-        <td th:text="${ordine.codiceOrdine}"></td>
-        <td th:text="${ordine.nomeFornitore}"></td>
-        <td th:text="${ordine.dataSpedizione}"></td>
-        <td th:text="${ordine.prezzoTotale}"></td>
-    </tr>
-    </tbody>
-</table>
+        <tr>
+            <th>Codice ordine</th>
+            <th>Nome fornitore</th>
+            <th>Data</th>
+            <th>Prezzo totale</th>
+        </tr>
+        </thead>
+        <tbody th:each="ordine : ${ordini}">
+        <tr class="separator">
+            <td th:text="${ordine.key.codiceOrdine}"></td>
+            <td th:text="${ordine.key.nomeFornitore}"></td>
+            <td th:text="${ordine.key.dataSpedizione}"></td>
+            <td th:text="${ordine.key.prezzoTotale}"></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="text-align: center">Prodotti:</td>
+        </tr>
+        <tr th:each="prodotto : ${ordine.value}" >
+            <td colspan="4" th:text="${prodotto.nomeProdotto}">  </td>
+        </tr>
+        <tr >
+            <td colspan="4"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
+
+
+
+
+
+
+
 </body>
 </html>
