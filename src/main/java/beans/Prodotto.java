@@ -1,5 +1,7 @@
 package beans;
 
+import java.beans.Beans;
+
 public class Prodotto {
     private int codiceProdotto;
     private String nomeProdotto;

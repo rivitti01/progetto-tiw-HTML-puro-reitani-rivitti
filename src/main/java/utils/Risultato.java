@@ -5,13 +5,12 @@ public class Risultato {
     private int codiceProdotto;
     private String nomeProdotto;
     private int prezzo;
-
     private boolean espandere = false;
+
 
     public boolean isEspandere() {
         return espandere;
     }
-
     public void setEspandere(boolean espandere) {
         this.espandere = espandere;
     }

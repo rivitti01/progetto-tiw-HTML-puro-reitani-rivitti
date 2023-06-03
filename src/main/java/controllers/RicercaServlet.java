@@ -2,9 +2,12 @@ package controllers;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+
+import beans.Fasce;
+import beans.Fornitore;
+import beans.Prodotto;
 import beans.Utente;
-import dao.RisultatoDAO;
-import dao.UserDAO;
+import dao.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -72,8 +76,9 @@ public class RicercaServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         ctx.setVariable("risultati", risultati);
-        templateEngine.process("WEB-INF/risultati.html", ctx, response.getWriter());
 
+
+        templateEngine.process("WEB-INF/risultati.html", ctx, response.getWriter());
 
     }
 

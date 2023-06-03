@@ -1,5 +1,6 @@
 package dao;
 
+import beans.Fornitore;
 import beans.Prodotto;
 import beans.Vende;
 
@@ -44,6 +45,25 @@ public class VendeDAO {
 
         }
         return prodotti;
+    }
+
+    public List<Fornitore> getFornitori(int codiceProdotto) throws SQLException{
+        String query = "SELECT f.codice_fornitore, f.nome_fornitore, f.valutazione, f.soglia FROM fornitore as f, vende as v where f.codice_fornitore = v.codice_fornitore and v.codice_prodotto = ?";
+        List<Fornitore> fornitori = new ArrayList<>();
+        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            pstatement.setInt(1, codiceProdotto);
+            try (ResultSet result = pstatement.executeQuery();) {
+                while (result.next()) {
+                    Fornitore fornitore = new Fornitore();
+                    fornitore.setCodiceFornitore(result.getInt("codice_fornitore"));
+                    fornitore.setNomeFornitore(result.getString("nome_fornitore"));
+                    fornitore.setSoglia(result.getInt("soglia"));
+                    fornitore.setValutazione(result.getInt("valutazione"));
+                    fornitori.add(fornitore);
+                }
+            }
+        }
+        return fornitori;
     }
 
     public int getPrice(int codiceProdotto, int codiceFornitore) throws SQLException{
