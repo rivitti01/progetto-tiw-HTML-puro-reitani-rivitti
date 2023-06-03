@@ -6,6 +6,16 @@ public class Risultato {
     private String nomeProdotto;
     private int prezzo;
 
+    private boolean espandere = false;
+
+    public boolean isEspandere() {
+        return espandere;
+    }
+
+    public void setEspandere(boolean espandere) {
+        this.espandere = espandere;
+    }
+
     public int getCodiceProdotto() {
         return codiceProdotto;
     }
