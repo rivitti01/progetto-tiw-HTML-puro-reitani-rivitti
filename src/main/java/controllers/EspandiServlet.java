@@ -97,8 +97,11 @@ public class EspandiServlet extends HttpServlet{
         ctx.setVariable("fasceMap", fasceMap);
         ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         ctx.setVariable("prodottoMap", prodottoMap);
+        session.setAttribute("ctx", ctx);
 
-        templateEngine.process("WEB-INF/risultati.html", ctx, response.getWriter());
+
+        String path = getServletContext().getContextPath() + "/Ricarica";
+        response.sendRedirect(path);
 
     }
 
