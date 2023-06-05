@@ -1,4 +1,4 @@
-//TODO: aggiustare come salvare il prezzo unitario
+//TODO: aggiustare perchè il prezzo del primo fornitore a volte è -1
 
 package controllers;
 
@@ -69,15 +69,15 @@ public class EspandiServlet extends HttpServlet{
         FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
         HashMap<Prodotto, List<Fornitore>> fornitoreMap = new HashMap<>();
         HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
-        HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
         HashMap < Risultato, Prodotto> prodottoMap = new HashMap<>();
+        HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
         for(Risultato r : risultati){
             if (r.isEspandere()){
                 try {
-                    HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
                     Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
                     List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
                     for (Fornitore f : fornitori){
+                        HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
                         List<Fasce> fasce = fasceDAO.getFasce(f.getCodiceFornitore());
                         fasceMap.put(f, fasce);
 
@@ -95,8 +95,8 @@ public class EspandiServlet extends HttpServlet{
         }
         ctx.setVariable("fornitoreMap", fornitoreMap);
         ctx.setVariable("fasceMap", fasceMap);
-        ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         ctx.setVariable("prodottoMap", prodottoMap);
+        ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         session.setAttribute("ctx", ctx);
 
 
