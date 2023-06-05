@@ -73,43 +73,60 @@
 <table>
     <thead>
     <tr>
-        <th style="width: 25pc">Codice</th>
-        <th style="width: 25pc">Nome</th>
-        <th style="width: 25pc">Prezzo minimo</th>
+        <th style="width: 25pc" colspan="3">Codice</th>
+        <th style="width: 25pc" colspan="3">Nome</th>
+        <th style="width: 25pc" colspan="3">Prezzo minimo</th>
     </tr>
     </thead>
     <tbody th:each="risultato : ${risultati}">
     <tr>
-        <td th:text="${risultato.codiceProdotto}"></td>
-        <td th:text="${risultato.nomeProdotto}"></td>
-        <td th:text="${risultato.prezzo}"></td>
+        <td colspan="3">
+            <form action="Espandi" method="GET">
+                <input type="hidden" id="codiceProdottoEsapndere" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
+                <button th:text="${risultato.codiceProdotto}"></button>
+            </form>
+        </td>
+        <td th:text="${risultato.nomeProdotto}" colspan="3"></td>
+        <td th:text="${risultato.prezzo}" colspan="3"></td>
     </tr>
+    <div th:if="${risultato.espandere}">
+        <tr rowspan="2">
+            <td colspan="2">
+                foto
+            </td>
+            <td colspan="7">
+                <p>catgoria:<span th:text="${prodottoMap.get(risultato).categoria}"></span></p>
+                <span th:text="${prodottoMap.get(risultato).descrizione}"></span>
+            </td>
+        </tr>
+        <div th:each="fornitore : ${fornitoreMap.get(prodottoMap.get(risultato))}">
+            <tr>
+                <td th:text="${fornitore.nomeFornitore}"></td>
+                <td th:text="${fornitore.valutazione}"></td>
+                <td>
+                    <div th:each="fascia : ${fasceMap.get(fornitore)}">
+                        tra <span th:text="${fascia.min}"></span> e <span th:text="${fascia.max}"></span> il prezzo é:
+                        <span th:text="${fascia.prezzo}"></span>
+                    </div>
+                </td>
+                <td th:text="${fornitore.soglia}"></td>
+                <td>prodotti già nel carrello</td>
+                <td>prezzo già nel carrello</td>
+                <td th:text="${prezzoUnitarioMap.get(fornitore).get(risultato)}"></td>
+                <td colspan="2">
+                    <form action="AggiungiAlCarrello" method="POST">
+                        <input type="text" id="quantità" name="quantità" placeholder="quantità" required >
+                        <input type="hidden" id="codiceProdotto" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
+                        <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${fornitore.codiceFornitore}">
+                        <input type="hidden" id="prezzoUnitario" name="prezzoUnitario" th:value="${prezzoUnitarioMap.get(fornitore)}">
+                        <button>Aggiungi al carrello</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+    </div>
     </tbody>
 </table>
-<details>
-    <summary>Clicca qui per mostrare/nascondere la tabella</summary>
-    <table>
-        <thead>
-        <tr>
-            <th>Intestazione colonna 1</th>
-            <th>Intestazione colonna 2</th>
-            <th>Intestazione colonna 3</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Dato 1</td>
-            <td>Dato 2</td>
-            <td>Dato 3</td>
-        </tr>
-        <tr>
-            <td>Dato 4</td>
-            <td>Dato 5</td>
-            <td>Dato 6</td>
-        </tr>
-        <!-- Aggiungi altre righe se necessario -->
-        </tbody>
-    </table>
-</details>
+
 </body>
 </html>

@@ -50,6 +50,7 @@ public class RicercaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Controlla se l'utente è già loggato, in caso positivo va direttamente alla home
         HttpSession session = request.getSession();
+        session.removeAttribute("risultati");
         /*if (session.isNew() || session.getAttribute("email") == null) {
             String loginpath = getServletContext().getContextPath() + "/index.html";
             response.sendRedirect(loginpath);
@@ -75,6 +76,7 @@ public class RicercaServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        session.setAttribute("risultati", risultati);
         ctx.setVariable("risultati", risultati);
 
 

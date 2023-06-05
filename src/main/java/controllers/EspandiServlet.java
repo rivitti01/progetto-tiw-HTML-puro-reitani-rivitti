@@ -1,4 +1,4 @@
-//TODO: completare il fatto di modificare l'attributo espandere di un prodotto
+//TODO: aggiustare come salvare il prezzo unitario
 
 package controllers;
 
@@ -20,11 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+@WebServlet("/Espandi")
 public class EspandiServlet extends HttpServlet{
 
     private static final long serialVersionUID = 1L;
@@ -49,9 +50,17 @@ public class EspandiServlet extends HttpServlet{
 
         HttpSession session = request.getSession();
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        RisultatoDAO RisultatoDAO = new RisultatoDAO(connection);
-        //Risultato risultato = RisultatoDAO. request.getParameter("risultato");
         List<Risultato> risultati = (List<Risultato>) session.getAttribute("risultati");
+
+        //cerco il risultato da modificare il valore espandere
+        for(Risultato r : risultati){
+            if (r.getCodiceProdotto() == ( Integer.parseInt(request.getParameter("codiceProdotto")))){
+                r.setEspandere(!r.isEspandere());
+            }
+        }
+        session.setAttribute("risultati", risultati);
+        ctx.setVariable("risultati", risultati);
+
 
         //create the maps for expanding the results
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
@@ -60,11 +69,12 @@ public class EspandiServlet extends HttpServlet{
         FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
         HashMap<Prodotto, List<Fornitore>> fornitoreMap = new HashMap<>();
         HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
-        HashMap < Fornitore, Integer > prezzoUnitarioMap = new HashMap<>();
+        HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
         HashMap < Risultato, Prodotto> prodottoMap = new HashMap<>();
         for(Risultato r : risultati){
             if (r.isEspandere()){
                 try {
+                    HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
                     Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
                     List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
                     for (Fornitore f : fornitori){
@@ -72,7 +82,8 @@ public class EspandiServlet extends HttpServlet{
                         fasceMap.put(f, fasce);
 
                         int prezzoUnitario = vendeDAO.getPrice(f.getCodiceFornitore(), r.getCodiceProdotto());
-                        prezzoUnitarioMap.put(f, prezzoUnitario);
+                        ausiliariaMap.put(r, prezzoUnitario);
+                        prezzoUnitarioMap.put(f , ausiliariaMap);
                     }
 
                     prodottoMap.put(r, p);
