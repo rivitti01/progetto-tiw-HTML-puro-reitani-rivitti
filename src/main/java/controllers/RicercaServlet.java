@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -48,16 +50,31 @@ public class RicercaServlet extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Controlla se l'utente è già loggato, in caso positivo va direttamente alla home
-        HttpSession session = request.getSession();
-        session.removeAttribute("risultati");
-        /*if (session.isNew() || session.getAttribute("email") == null) {
-            String loginpath = getServletContext().getContextPath() + "/index.html";
-            response.sendRedirect(loginpath);
-            return;
-        }*/
+
+        //controllo che i codici dei prodotti espansi siano validi
+        String[] scodiciDaEspandere = request.getParameterValues("codiceProdottoEspanso");
+        List<Integer> codiciDaEspndere = new ArrayList<>();
+        if(scodiciDaEspandere != null) {
+            for (String c : scodiciDaEspandere) {
+                int cod;
+                try {
+                    cod = Integer.parseInt(c);
+                } catch (NumberFormatException ex) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "il codice prodotto non è un numero");
+                    return;
+                }
+
+                if (cod <= 0) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "il codice prodotto non è un numero valido");
+
+                    return;
+                }
+                codiciDaEspndere.add(cod);
+            }
+        }
+
+
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        String email = (String) session.getAttribute("email");
 
         String word = request.getParameter("word");
 
@@ -74,10 +91,64 @@ public class RicercaServlet extends HttpServlet {
         try {
             risultati = risultatoDAO.searchByWord(word);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Query ricerca fallita");
+            return;
         }
-        session.setAttribute("risultati", risultati);
+
+        //verifica che i codici prodotto da espandere siano effettivamente presenti nella ricerca
+        for(Integer codice : codiciDaEspndere){
+            if(risultati.stream().filter(r -> r.getCodiceProdotto() == codice).count() == 0) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "il codice prodotto non è valido");
+                return;
+            }
+        }
+
+        //setta gli attributi per la visualizzazione dei risultati
+        for(Risultato r : risultati){
+            if(codiciDaEspndere.contains(r.getCodiceProdotto())){
+                r.setEspandere(true);
+            }
+        }
+
+        //crea le mappe per la visualizzazione dei risultati
+        ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
+        FasceDAO fasceDAO = new FasceDAO(connection);
+        VendeDAO vendeDAO = new VendeDAO(connection);
+        FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
+
+        HashMap<Prodotto, List<Fornitore>> fornitoreMap = new HashMap<>();
+        HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
+        HashMap < Risultato, Prodotto> prodottoMap = new HashMap<>();
+        HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
+        for(Risultato r : risultati){
+            if (r.isEspandere()){
+                try {
+                    Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
+                    List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
+                    for (Fornitore f : fornitori){
+                        HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
+                        List<Fasce> fasce = fasceDAO.getFasce(f.getCodiceFornitore());
+                        fasceMap.put(f, fasce);
+
+                        int prezzoUnitario = vendeDAO.getPrice(f.getCodiceFornitore(), r.getCodiceProdotto());
+                        ausiliariaMap.put(r, prezzoUnitario);
+                        prezzoUnitarioMap.put(f , ausiliariaMap);
+                    }
+
+                    prodottoMap.put(r, p);
+                    fornitoreMap.put(p, fornitori);
+                } catch (SQLException e) {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                    return;
+                }
+            }
+        }
+        ctx.setVariable("fornitoreMap", fornitoreMap);
+        ctx.setVariable("fasceMap", fasceMap);
+        ctx.setVariable("prodottoMap", prodottoMap);
+        ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         ctx.setVariable("risultati", risultati);
+        ctx.setVariable("word", word);
 
 
         templateEngine.process("WEB-INF/risultati.html", ctx, response.getWriter());

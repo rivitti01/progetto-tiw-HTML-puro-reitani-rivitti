@@ -17,7 +17,7 @@ public class VendeDAO {
         this.con = connection;
     }
 
-    public Vende getMinPrice(int codiceProdotto) throws SQLException{
+    /*public Vende getMinPrice(int codiceProdotto) throws SQLException{
         String query = "SELECT * FROM vende WHERE codice_prodotto = ? ORDER BY prezzo ASC LIMIT 1";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setInt(1, codiceProdotto);
@@ -27,6 +27,21 @@ public class VendeDAO {
                 else {
                     result.next();
                     return mapRowToVende(result);
+                }
+            }
+        }
+    }*/
+
+    public Integer getMinPrice(int codiceProdotto) throws SQLException{
+        String query = "SELECT * FROM vende WHERE codice_prodotto = ? ORDER BY prezzo ASC LIMIT 1";
+        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            pstatement.setInt(1, codiceProdotto);
+            try (ResultSet result = pstatement.executeQuery();) {
+                if (!result.isBeforeFirst()) // no results, credential check failed
+                    return null;
+                else {
+                    result.next();
+                    return result.getInt("prezzo");
                 }
             }
         }

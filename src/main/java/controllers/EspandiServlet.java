@@ -16,6 +16,8 @@ import utils.Risultato;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -48,59 +50,96 @@ public class EspandiServlet extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        List<Risultato> risultati = (List<Risultato>) session.getAttribute("risultati");
+        //controlla che ci sia la parola
+        String word = request.getParameter("word");
+        if(word == null || word.isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("il campo di ricerca è vuoto");
+            return;
+        }
 
-        //cerco il risultato da modificare il valore espandere
-        for(Risultato r : risultati){
-            if (r.getCodiceProdotto() == ( Integer.parseInt(request.getParameter("codiceProdotto")))){
-                r.setEspandere(!r.isEspandere());
+        //controlla che ci sia il codice del prodotto da espandere
+        String scodiceProdottoDaEspandere = request.getParameter("codiceProdotto");
+        if(scodiceProdottoDaEspandere == null || scodiceProdottoDaEspandere.isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("il codice prodotto non può essere vuoto");
+            return;
+        }
+
+        //controlla che il codice del prodotto da espandere sia un numero
+        Integer codiceProdottoDaEspandere;
+        try{
+            codiceProdottoDaEspandere = Integer.parseInt(scodiceProdottoDaEspandere);
+        }catch (NumberFormatException ex){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("il codice prodotto non è un numero");
+            return;
+        }
+
+        String[] scodiciProdottiGiaEspansi = request.getParameterValues("codiceProdottoEspanso");
+        if(scodiciProdottiGiaEspansi == null){
+            scodiciProdottiGiaEspansi = new String[0];
+        }
+
+        //controlla che i codici dei prodotti gia espansi siano numeri
+        List<Integer> codiciProdottiGiaEspansi = new ArrayList<>();
+        for(String scodice : scodiciProdottiGiaEspansi){
+            try{
+                codiciProdottiGiaEspansi.add(Integer.parseInt(scodice));
+            }catch (NumberFormatException ex){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("il codice prodotto non è un numero");
+                return;
             }
         }
-        session.setAttribute("risultati", risultati);
-        ctx.setVariable("risultati", risultati);
 
+        RisultatoDAO risultatoDAO = new RisultatoDAO(connection);
+        List<Risultato> risultati;
 
-        //create the maps for expanding the results
-        ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
-        FasceDAO fasceDAO = new FasceDAO(connection);
-        VendeDAO vendeDAO = new VendeDAO(connection);
-        FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
-        HashMap<Prodotto, List<Fornitore>> fornitoreMap = new HashMap<>();
-        HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
-        HashMap < Risultato, Prodotto> prodottoMap = new HashMap<>();
-        HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
-        for(Risultato r : risultati){
-            if (r.isEspandere()){
-                try {
-                    Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
-                    List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
-                    for (Fornitore f : fornitori){
-                        HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
-                        List<Fasce> fasce = fasceDAO.getFasce(f.getCodiceFornitore());
-                        fasceMap.put(f, fasce);
+        //prende i risultati dalla parola
+        try{
+            risultati = risultatoDAO.searchByWord(word);
+        }catch(SQLException ex){
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Errore nel caricamento dei risultati");
+            return;
+        }
 
-                        int prezzoUnitario = vendeDAO.getPrice(f.getCodiceFornitore(), r.getCodiceProdotto());
-                        ausiliariaMap.put(r, prezzoUnitario);
-                        prezzoUnitarioMap.put(f , ausiliariaMap);
-                    }
-
-                    prodottoMap.put(r, p);
-                    fornitoreMap.put(p, fornitori);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+        //controlla che il codice del prodotto da espandere sia attinente alla ricerca
+        if(risultati.stream().filter(x -> x.getCodiceProdotto() == codiceProdottoDaEspandere).count() == 0){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Codice prodotto da espandere non attinente la ricerca");
+            return;
+        }
+        for(Integer i : codiciProdottiGiaEspansi){
+            if(risultati.stream().filter(x -> x.getCodiceProdotto() == i).count() == 0){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("Codice prodotto non attinente la ricerca");
+                return;
             }
         }
-        ctx.setVariable("fornitoreMap", fornitoreMap);
-        ctx.setVariable("fasceMap", fasceMap);
-        ctx.setVariable("prodottoMap", prodottoMap);
-        ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
-        session.setAttribute("ctx", ctx);
 
+        //TODO: Aggiungi nel database che hai visualizzato il prodotto (solo se non era già aperto)
 
-        String path = getServletContext().getContextPath() + "/Ricarica";
+        //modificare il valore espandere nei risultati da espandere
+        for(Risultato r : risultati){
+            boolean espandere = (
+                    codiciProdottiGiaEspansi.contains(r.getCodiceProdotto()) &&
+                    r.getCodiceProdotto() != (codiceProdottoDaEspandere))
+
+                    || (r.getCodiceProdotto() == (codiceProdottoDaEspandere) &&
+                            !codiciProdottiGiaEspansi.contains(r.getCodiceProdotto()));
+            r.setEspandere(espandere);
+        }
+
+        //creo il path per mandare alla servlet Ricerca tutti i dati
+        String path = getServletContext().getContextPath() + "/Ricerca?word=" + word ;
+        for(int i = 0;i<risultati.size();i++){
+            if(risultati.get(i).isEspandere()){
+                path += "&codiceProdottoEspanso=" + risultati.get(i).getCodiceProdotto();
+            }
+        }
+
         response.sendRedirect(path);
 
     }

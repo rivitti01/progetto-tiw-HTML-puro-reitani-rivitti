@@ -71,7 +71,12 @@ public class OrdiniServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         ctx.setVariable("ordini", ordini);
-        templateEngine.process("WEB-INF/ordini.html", ctx, response.getWriter());
+        try {
+            templateEngine.process("WEB-INF/ordini.html", ctx, response.getWriter());
+        }catch (Exception ex){
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+            return;
+        }
 
     }
 

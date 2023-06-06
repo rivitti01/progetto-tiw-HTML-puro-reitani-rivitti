@@ -82,7 +82,9 @@
     <tr>
         <td colspan="3">
             <form action="Espandi" method="GET">
-                <input type="hidden" id="codiceProdottoEsapndere" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
+                <input type="hidden" id="codiceProdottoEspandere" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
+                <input type="hidden" name="word" th:value="${word}"/>
+                <input type="hidden" name="codiceProdottoEspanso" th:each="ris : ${risultati}" th:if="${ris.espandere}" th:value="${ris.codiceProdotto}"/>
                 <button th:text="${risultato.codiceProdotto}"></button>
             </form>
         </td>

@@ -1,5 +1,7 @@
 package utils;
 
+import beans.Prodotto;
+
 public class Risultato {
 
     private int codiceProdotto;
@@ -7,10 +9,10 @@ public class Risultato {
     private int prezzo;
     private boolean espandere = false;
 
-
     public boolean isEspandere() {
         return espandere;
     }
+    public Risultato(){}
     public void setEspandere(boolean espandere) {
         this.espandere = espandere;
     }
