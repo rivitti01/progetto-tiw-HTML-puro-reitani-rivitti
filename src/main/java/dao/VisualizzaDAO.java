@@ -34,13 +34,16 @@ public class VisualizzaDAO {
     }
 
     public void addVisualized (String email, int codiceProdotto) throws SQLException{
-        String query = "DELETE FROM visualizza where email = ? and codice_prodotto = ?;\n" +
-                "INSERT INTO visualizza (email, codice_prodotto) VALUES (?, ?);";
+        String query = "DELETE FROM visualizza where email = ? and codice_prodotto = ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             pstatement.setInt(2, codiceProdotto);
-            pstatement.setString(3, email);
-            pstatement.setInt(4, codiceProdotto);
+            pstatement.executeUpdate();
+        }
+        query = "INSERT INTO visualizza (email, codice_prodotto) VALUES (?, ?)";
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
+            pstatement.setString(1, email);
+            pstatement.setInt(2, codiceProdotto);
             pstatement.executeUpdate();
         }
     }

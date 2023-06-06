@@ -47,10 +47,11 @@ public class VendeDAO {
         }
     }
 
-    public List<Vende> getFiveDiscountedProducts() throws SQLException{
+    public List<Vende> getNDiscountedProducts(int n) throws SQLException{
         List<Vende> prodotti = new ArrayList<Vende>();
-        String query = "SELECT codice_prodotto, codice_forniotre, prezzo, sconto FROM vende v JOIN prodotto p ON p.codice_prodotto = v.codice_prodotto WHERE categoria = 'Informatica' AND sconto > 0 ORDER BY RAND() LIMIT 5";
+        String query = "SELECT codice_prodotto, codice_forniotre, prezzo, sconto FROM vende v JOIN prodotto p ON p.codice_prodotto = v.codice_prodotto WHERE categoria = 'Informatica' AND sconto > 0 ORDER BY RAND() LIMIT ?";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            pstatement.setInt(1, n);
             try (ResultSet result = pstatement.executeQuery();) {
                 while (result.next()) {
                     Vende prodotto = mapRowToVende(result);

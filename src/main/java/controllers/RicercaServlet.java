@@ -130,7 +130,7 @@ public class RicercaServlet extends HttpServlet {
                         List<Fasce> fasce = fasceDAO.getFasce(f.getCodiceFornitore());
                         fasceMap.put(f, fasce);
 
-                        int prezzoUnitario = vendeDAO.getPrice(f.getCodiceFornitore(), r.getCodiceProdotto());
+                        int prezzoUnitario = vendeDAO.getPrice(r.getCodiceProdotto(), f.getCodiceFornitore());
                         ausiliariaMap.put(r, prezzoUnitario);
                         prezzoUnitarioMap.put(f , ausiliariaMap);
                     }

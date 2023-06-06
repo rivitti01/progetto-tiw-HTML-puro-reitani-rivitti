@@ -119,8 +119,6 @@ public class EspandiServlet extends HttpServlet{
             }
         }
 
-        //TODO: Aggiungi nel database che hai visualizzato il prodotto (solo se non era già aperto)
-
         //modificare il valore espandere nei risultati da espandere
         for(Risultato r : risultati){
             boolean espandere = (
@@ -132,7 +130,21 @@ public class EspandiServlet extends HttpServlet{
             r.setEspandere(espandere);
         }
 
-        //creo il path per mandare alla servlet Ricerca tutti i dati
+        //se visualizzo un nuovo prodotto lo aggiungo alla tabella visualizza
+        if(!codiciProdottiGiaEspansi.contains(codiceProdottoDaEspandere)) {
+            VisualizzaDAO visualizzatoDAO = new VisualizzaDAO(connection);
+            HttpSession session = request.getSession();
+            String email = (String) session.getAttribute("email");
+            try {
+                visualizzatoDAO.addVisualized(email, codiceProdottoDaEspandere);
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+            //creo il path per mandare alla servlet Ricerca tutti i dati
         String path = getServletContext().getContextPath() + "/Ricerca?word=" + word ;
         for(int i = 0;i<risultati.size();i++){
             if(risultati.get(i).isEspandere()){
