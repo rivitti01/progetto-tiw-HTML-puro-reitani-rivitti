@@ -3,8 +3,6 @@
 <head>
 
     <title>Carrello</title>
-    <meta charset="UTF-8">
-    <title>Title</title>
     <style>
         .menu-bar {
             background-color: #f2f2f2;
@@ -55,8 +53,11 @@
     </form>
 </div>
 
-<div class="centered-row">
-    <table>
+<span th:if="${carrello == null || carrello.size()==0}">
+        <h1>Il tuo carrello è ancora vuoto!</h1>
+</span>
+<div th:unless="${carrello == null || carrello.size()==0}" class="centered-row">
+    <table >
         <caption>Ecco il tuo carrello</caption>
         <tbody th:each="int : ${carrello}">
         <tr class="separator">
@@ -69,10 +70,8 @@
             <td th:text="${int.value.prezzoTotaleProdotti}"></td>
             <td th:text="${int.value.prezzoSpedizione}"></td>
             <td colspan="2">
-                <form action="AggiungiAlCarrello" method="GET">
-                    <!--<input type="hidden" id="codiceProdottoEspandere" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
-                    <input type="hidden" name="word" th:value="${word}"/>
-                    <input type="hidden" name="codiceProdottoEspanso" th:each="ris : ${risultati}" th:if="${ris.espandere}" th:value="${ris.codiceProdotto}"/>-->
+                <form action="CreaOrdine" method="POST">
+                    <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${int.value.fornitore.codiceFornitore}">
                     <button>ORDINA</button>
                 </form>
             </td>
@@ -85,6 +84,7 @@
         </tbody>
     </table>
 </div>
+
 
 </body>
 </html>
