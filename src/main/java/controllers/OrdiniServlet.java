@@ -75,7 +75,6 @@ public class OrdiniServlet extends HttpServlet {
             templateEngine.process("WEB-INF/ordini.html", ctx, response.getWriter());
         }catch (Exception ex){
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            return;
         }
 
     }

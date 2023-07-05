@@ -16,10 +16,10 @@ public class FasceDAO {
         this.con = connection;
     }
 
-   public int getPrice(String codiceFornitore, int quantità)throws SQLException{
-        String query = "SELECT prezzo FROM fasce WHERE codice_fornitore = ? AND quantità_minima <= ? AND quantità_massima >= ?";
+   public int getPrice(int codiceFornitore, int quantità)throws SQLException{
+        String query = "SELECT prezzo FROM fasce WHERE codice_fornitore = ? AND min <= ? AND max >= ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
-            pstatement.setString(1, codiceFornitore);
+            pstatement.setInt(1, codiceFornitore);
             pstatement.setInt(2, quantità);
             pstatement.setInt(3, quantità);
             try (ResultSet result = pstatement.executeQuery();) {

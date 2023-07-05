@@ -14,10 +14,10 @@ public class FornitoreDAO {
         this.con = connection;
     }
 
-    public Fornitore getInformation(String codiceFornitore) throws SQLException {
+    public Fornitore getFornitore(int codiceFornitore) throws SQLException {
         String query = "SELECT * FROM fornitore WHERE codice_fornitore = ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
-            pstatement.setString(1, codiceFornitore);
+            pstatement.setInt(1, codiceFornitore);
             try (ResultSet result = pstatement.executeQuery();) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return null;
@@ -25,7 +25,7 @@ public class FornitoreDAO {
                     result.next();
                     Fornitore fornitore = new Fornitore();
                     fornitore.setCodiceFornitore(result.getInt("codice_fornitore"));
-                    fornitore.setNomeFornitore(result.getString("nome"));
+                    fornitore.setNomeFornitore(result.getString("nome_fornitore"));
                     fornitore.setSoglia(result.getInt("soglia"));
                     fornitore.setValutazione(result.getInt("valutazione"));
                     return fornitore;
