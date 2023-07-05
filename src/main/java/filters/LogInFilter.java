@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = {"/Home", "/Ordini", "/Ricerca", "/Ricarica", "/Espandi"})
+@WebFilter( urlPatterns = {"/Home", "/Ordini", "/Ricerca", "/Ricarica", "/Espandi", "/Carrello", "/AggiungiAlCarrello", "/Logout"})
 public class LogInFilter implements Filter{
     //checks that the session is active; in case it is not so, redirect to the sign-in page
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
