@@ -19,7 +19,10 @@ public class RisultatoDAO {
 
     public List<Risultato> searchByWord (String word) throws SQLException {
         List<Risultato> risultati = new ArrayList<Risultato>();
-        String query = "SELECT p.codice_prodotto,p.nome_prodotto, MIN(v.prezzo) FROM prodotto as p, vende as v WHERE p.codice_prodotto = v.codice_prodotto AND (p.nome_prodotto LIKE ? OR p.descrizione LIKE ?) group by p.codice_prodotto order by MIN(v.prezzo) asc";
+        String query = "SELECT vende.codice_prodotto,nome_prodotto, prezzo, sconto\n" +
+                "FROM vende JOIN (SELECT codice_prodotto, nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?) as p\n" +
+                "on vende.codice_prodotto = p.codice_prodotto\n" +
+                "WHERE prezzo = (SELECT MIN(prezzo) FROM vende WHERE codice_prodotto = p.codice_prodotto)";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setString(1, "%" + word + "%");
             pstatement.setString(2, "%" + word + "%");
@@ -28,7 +31,7 @@ public class RisultatoDAO {
                     Risultato risultato = new Risultato();
                     risultato.setCodiceProdotto(result.getInt("codice_prodotto"));
                     risultato.setNomeProdotto(result.getString("nome_prodotto"));
-                    risultato.setPrezzo(result.getInt("MIN(v.prezzo)"));
+                    risultato.setPrezzo(result.getInt("prezzo")*(1-result.getFloat("sconto")));
                     risultati.add(risultato);
                 }
             }

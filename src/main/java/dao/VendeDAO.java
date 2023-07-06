@@ -82,8 +82,8 @@ public class VendeDAO {
         return fornitori;
     }
 
-    public int getPrice(int codiceProdotto, int codiceFornitore) throws SQLException{
-        String query = "SELECT prezzo FROM vende WHERE codice_prodotto = ? AND codice_fornitore = ?";
+    public float getPrice(int codiceProdotto, int codiceFornitore) throws SQLException{
+        String query = "SELECT prezzo, sconto FROM vende WHERE codice_prodotto = ? AND codice_fornitore = ?";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setInt(1, codiceProdotto);
             pstatement.setInt(2, codiceFornitore);
@@ -92,7 +92,7 @@ public class VendeDAO {
                     return -1;
                 else {
                     result.next();
-                    return result.getInt("prezzo");
+                    return result.getInt("prezzo")*(1-(float)result.getFloat("sconto"));
                 }
             }
         }

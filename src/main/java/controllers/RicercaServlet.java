@@ -100,11 +100,11 @@ public class RicercaServlet extends ServletPadre {
                     Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
                     List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
                     for (Fornitore f : fornitori){
-                        HashMap <Risultato, Integer> ausiliariaMap = new HashMap<>();
+                        HashMap<Risultato, Float> ausiliariaMap = new HashMap<>();
                         List<Fasce> fasce = fasceDAO.getFasce(f.getCodiceFornitore());
                         fasceMap.put(f, fasce);
 
-                        int prezzoUnitario = vendeDAO.getPrice(r.getCodiceProdotto(), f.getCodiceFornitore());
+                        float prezzoUnitario = vendeDAO.getPrice(r.getCodiceProdotto(), f.getCodiceFornitore());
                         ausiliariaMap.put(r, prezzoUnitario);
                         prezzoUnitarioMap.put(f , ausiliariaMap);
                     }

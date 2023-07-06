@@ -1,12 +1,10 @@
 package utils;
 
-import beans.Prodotto;
-
 public class Risultato {
 
     private int codiceProdotto;
     private String nomeProdotto;
-    private int prezzo;
+    private float prezzo;
     private boolean espandere = false;
 
     public boolean isEspandere() {
@@ -33,11 +31,11 @@ public class Risultato {
         this.nomeProdotto = nomeProdotto;
     }
 
-    public int getPrezzo() {
+    public float getPrezzo() {
         return prezzo;
     }
 
-    public void setPrezzo(int prezzo) {
+    public void setPrezzo(float prezzo) {
         this.prezzo = prezzo;
     }
 

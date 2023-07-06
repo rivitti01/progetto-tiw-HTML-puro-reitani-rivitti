@@ -1,16 +1,12 @@
 package beans;
 
-import beans.Fornitore;
-import beans.Prodotto;
-import dao.FasceDAO;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class CarrelloFornitore {
     private final Fornitore fornitore;
     private int prezzoSpedizione = 0;
-    private int prezzoTotaleProdotti = 0;
+    private float prezzoTotaleProdotti = 0;
     private int quantitaTotaleProdotti = 0;
     private Map<Prodotto, Integer> prodotti = new HashMap<>();
 
@@ -30,11 +26,11 @@ public class CarrelloFornitore {
         this.prezzoSpedizione = prezzoSpedizione;
     }
 
-    public int getPrezzoTotaleProdotti() {
+    public float getPrezzoTotaleProdotti() {
         return prezzoTotaleProdotti;
     }
 
-    public void setPrezzoTotaleProdotti(int prezzoTotaleProdotti) {
+    public void setPrezzoTotaleProdotti(float prezzoTotaleProdotti) {
         this.prezzoTotaleProdotti = prezzoTotaleProdotti;
     }
 
