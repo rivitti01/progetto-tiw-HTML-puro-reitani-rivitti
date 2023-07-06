@@ -76,10 +76,8 @@ create table IF NOT EXISTS tiw.informazioni(
     codice_prodotto int not null,
     nome VARCHAR(255) not null,
     foto VARCHAR(255) not null,
-    categoria VARCHAR(255) not null,
     quantita int not null check (quantita > 0),
     prezzo_unitario int not null check (prezzo_unitario > 0),
-    descrizione VARCHAR(255) not null,
     primary key (codice_ordine, codice_prodotto),
     foreign key (codice_ordine) references ordini(codice_ordine)
 );
@@ -157,13 +155,13 @@ VALUES (1, 1, 100, 0.1),
        (2, 3, 60, 0.2);
 
 -- Popolazione della tabella "informazioni"
-INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, foto, categoria, quantita, prezzo_unitario, descrizione)
+INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, foto, quantita, prezzo_unitario)
 VALUES
-    (1, 1, 'Smartphone Galaxy S21', 'smartphone_galaxy_s21.jpg', 'Elettronica', 2, 899, 'Potente smartphone con schermo AMOLED e fotocamera di alta qualità.'),
-    (1, 2, 'Laptop ThinkPad X1 Carbon', 'laptop_thinkpad_x1_carbon.jpg', 'Informatica', 1, 1599, 'Notebook leggero e performante con display ad alta risoluzione.'),
-    (2, 3, 'Scarpe da running Nike Air Zoom Pegasus 38', 'scarpe_running_nike_pegasus_38.jpg', 'Sport', 1, 129, 'Scarpe da corsa con ammortizzazione reattiva e comfort duraturo.'),
-    (2, 4, 'Orologio automatico Rolex Submariner', 'orologio_rolex_submariner.jpg', 'Orologi', 1, 12000, 'Iconico orologio subacqueo con movimento automatico e impermeabilità fino a 300 metri.'),
-    (3, 5, 'Macchina fotografica Canon EOS R5', 'macchina_fotografica_canon_eos_r5.jpg', 'Fotografia', 1, 3499, 'Fotocamera mirrorless ad alta risoluzione con registrazione video in 8K.');
+    (1, 1, 'Smartphone Galaxy S21', 'smartphone_galaxy_s21.jpg', 2, 899),
+    (1, 2, 'Laptop ThinkPad X1 Carbon', 'laptop_thinkpad_x1_carbon.jpg', 1, 1599),
+    (2, 3, 'Scarpe da running Nike Air Zoom Pegasus 38', 'scarpe_running_nike_pegasus_38.jpg', 1, 129),
+    (2, 4, 'Orologio automatico Rolex Submariner', 'orologio_rolex_submariner.jpg', 1, 12000),
+    (3, 5, 'Macchina fotografica Canon EOS R5', 'macchina_fotografica_canon_eos_r5.jpg', 1, 3499);
 
 
 

@@ -6,7 +6,7 @@ public class Ordine {
     private int codiceOrdine;
     private String nomeFornitore;
     private Date dataSpedizione;
-    private int prezzoTotale;
+    private float prezzoTotale;
     private String email;
     private String indirizzoSpedizione;
 
@@ -34,11 +34,11 @@ public class Ordine {
         this.dataSpedizione = dataSpedizione;
     }
 
-    public int getPrezzoTotale() {
+    public float getPrezzoTotale() {
         return prezzoTotale;
     }
 
-    public void setPrezzoTotale(int prezzoTotale) {
+    public void setPrezzoTotale(float prezzoTotale) {
         this.prezzoTotale = prezzoTotale;
     }
 

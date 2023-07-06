@@ -28,7 +28,7 @@ public class OrdineDAO {
             }
 
         }
-        String query2 = "SELECT codice_prodotto, nome, categoria, descrizione FROM informazioni WHERE codice_ordine = ?";
+        String query2 = "SELECT codice_prodotto, nome FROM informazioni WHERE codice_ordine = ?";
 
         for (Ordine ordine : ordini) {
             List<Prodotto> prodotti = new ArrayList<>();
@@ -47,13 +47,29 @@ public class OrdineDAO {
     }
 
     public void createOrder(Ordine ordine) throws SQLException {
-        String query = "INSERT INTO ordine (nome_fornitore, data_spedizione, prezzo_totale, email) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO ordini (nome_fornitore, data_spedizione, prezzo_totale, email, indirizzo_spedizione) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, ordine.getNomeFornitore());
             pstatement.setDate(2, ordine.getDataSpedizione());
-            pstatement.setInt(3, ordine.getPrezzoTotale());
+            pstatement.setFloat(3, ordine.getPrezzoTotale());
             pstatement.setString(4, ordine.getEmail());
+            pstatement.setString(5, ordine.getIndirizzoSpedizione());
             pstatement.executeUpdate();
+        }
+
+    }
+
+    public int getCodiceUltimoOrdine(String email) throws SQLException{
+        String query = "SELECT codice_ordine FROM ordini WHERE email = ? ORDER BY codice_ordine DESC LIMIT 1";
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
+            pstatement.setString(1, email);
+            try (ResultSet result = pstatement.executeQuery();) {
+                if (!result.isBeforeFirst()) // no results, credential check failed
+                    return -1;
+                else {result.next();
+                    return result.getInt("codice_ordine");
+                }
+            }
         }
 
     }
@@ -66,14 +82,13 @@ public class OrdineDAO {
         ordine.setDataSpedizione(result.getDate("data_spedizione"));
         ordine.setNomeFornitore(result.getString("nome_fornitore"));
         ordine.setPrezzoTotale(result.getInt("prezzo_totale"));
+        ordine.setIndirizzoSpedizione(result.getString("indirizzo_spedizione"));
         return ordine;
     }
     private Prodotto mapRowToProdotto(ResultSet result) throws SQLException {
         Prodotto prodotto = new Prodotto();
         prodotto.setCodiceProdotto(result.getInt("codice_prodotto"));
         prodotto.setNomeProdotto(result.getString("nome"));
-        prodotto.setCategoria(result.getString("categoria"));
-        prodotto.setDescrizione(result.getString("descrizione"));
         return prodotto;
     }
 

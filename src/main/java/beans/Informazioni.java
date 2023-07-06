@@ -5,11 +5,9 @@ public class Informazioni {
     private int codiceProdotto;
     private int codiceOrdine;
     private int quantità;
-    private int prezzoUnitario;
+    private float prezzoUnitario;
     private String nome;
-    private String descrizione;
     private String foto;
-    private String categoria;
 
 
     public int getCodiceProdotto() {
@@ -36,11 +34,11 @@ public class Informazioni {
         this.quantità = quantità;
     }
 
-    public int getPrezzoUnitario() {
+    public float getPrezzoUnitario() {
         return prezzoUnitario;
     }
 
-    public void setPrezzoUnitario(int prezzoUnitario) {
+    public void setPrezzoUnitario(float prezzoUnitario) {
         this.prezzoUnitario = prezzoUnitario;
     }
 
@@ -52,27 +50,11 @@ public class Informazioni {
         this.nome = nome;
     }
 
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
     public String getFoto() {
         return foto;
     }
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 }

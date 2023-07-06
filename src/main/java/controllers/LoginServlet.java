@@ -1,7 +1,7 @@
 package controllers;
 
 import beans.Utente;
-import dao.UserDAO;
+import dao.UtenteDAO;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class LoginServlet extends ServletPadre {
     }
 
     private boolean checkCredentials(String email, String password) throws SQLException {
-        UserDAO checkCredentials = new UserDAO(connection);
+        UtenteDAO checkCredentials = new UtenteDAO(connection);
         Utente utente = checkCredentials.checkCredentials(email, password);
         // Effettua la verifica delle credenziali nel database
          if(utente != null){

@@ -7,9 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
+public class UtenteDAO {
     private Connection con;
-    public UserDAO(Connection connection) {
+    public UtenteDAO(Connection connection) {
         this.con = connection;
     }
     public Utente checkCredentials(String email, String password) throws SQLException {
@@ -29,6 +29,21 @@ public class UserDAO {
                     user.setIndirizzo(result.getString("indirizzo"));
                     user.setPassword(result.getString("password"));
                     return user;
+                }
+            }
+        }
+    }
+
+    public String getIndirizzoByEmail(String email) throws SQLException {
+        String query = "SELECT indirizzo FROM utente WHERE email = ?";
+        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+            pstatement.setString(1, email);
+            try (ResultSet result = pstatement.executeQuery();) {
+                if (!result.isBeforeFirst()) // no results, credential check failed
+                    return null;
+                else {
+                    result.next();
+                    return result.getString("indirizzo");
                 }
             }
         }
