@@ -120,7 +120,7 @@
                         <input type="text" id="quantità" name="quantità" placeholder="quantità" required >
                         <input type="hidden" id="codiceProdotto" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
                         <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${fornitore.codiceFornitore}">
-                        <input type="hidden" id="prezzoUnitario" name="prezzoUnitario" th:value="${prezzoUnitarioMap.get(fornitore)}">
+                        <!--<input type="hidden" id="prezzoUnitario" name="prezzoUnitario" th:value="${prezzoUnitarioMap.get(fornitore)}"> il prezzo unitario lo riprendo direttamente dal server-->
                         <button>Aggiungi al carrello</button>
                     </form>
                 </td>

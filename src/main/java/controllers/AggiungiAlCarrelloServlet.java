@@ -26,25 +26,85 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
+        FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
+
+        //controlla che il codice del fornitore sia un numero
+        int IDFornitore;
+        try {
+            IDFornitore = Integer.parseInt(request.getParameter("codiceFornitore"));
+        } catch (NumberFormatException ex) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("il codice fornitore non è un numero");
+            return;
+        }
+
+        //controllo che il fornitore esista
+        try {
+            if(fornitoreDAO.getFornitore(IDFornitore) == null){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("il fornitore non esiste");
+                return;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        //controllo che il codice del prodotto sia un numero
+        int IDProdotto;
+        try {
+            IDProdotto = Integer.parseInt(request.getParameter("codiceProdotto"));
+        } catch (NumberFormatException ex) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("il codice prodotto non è un numero");
+            return;
+        }
+
+        //controllo che il prodotto esista
+        try{
+            if(prodottoDAO.getInformation(IDProdotto) == null){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("il prodotto non esiste");
+                return;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        //controllo che la quantità sia un numero
+        int quantità;
+        try {
+            quantità = Integer.parseInt(request.getParameter("quantità"));
+        } catch (NumberFormatException ex) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("la quantità non è un numero");
+            return;
+        }
+
+        //controllo che la quantità sia maggiore di 0
+        if(quantità <= 0){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("la quantità non può essere minore di 1");
+            return;
+        }
 
         //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
         HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");
-        if(carrello == null){
+        if (carrello == null) {
             carrello = new HashMap<Integer, CarrelloFornitore>();
             session.setAttribute("carrello", carrello);
         }
 
         //prendo il carrello del fornitore, se non c'è lo creo
-        int IDFornitore = Integer.parseInt(request.getParameter("codiceFornitore"));
         CarrelloFornitore carrelloFornitore = carrello.get(IDFornitore);
-        if(!carrello.keySet().contains(IDFornitore)){
+        if (!carrello.keySet().contains(IDFornitore)) {
             try {
                 carrelloFornitore = new CarrelloFornitore(fornitoreDAO.getFornitore(IDFornitore));
                 carrello.put(IDFornitore, carrelloFornitore);
             } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().println("Errore nella creazione del cartello del fornitore");
                 return;
             }
         }
@@ -52,9 +112,11 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         //aggiungo il prodotto al carrello
         CarrelloFornitoreDAO carrelloFornitoreDAO = new CarrelloFornitoreDAO(carrelloFornitore);
         try {
-            carrelloFornitoreDAO.addProdotto( prodottoDAO.getInformation(Integer.parseInt(request.getParameter("codiceProdotto"))) , Integer.parseInt(request.getParameter("quantità")), connection);
+            carrelloFornitoreDAO.addProdotto(prodottoDAO.getInformation(IDProdotto), quantità, connection);
         } catch (SQLException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Errore nel caricamento del prodotto nel carrello");
+            return;
         }
 
         //aggiorno il carrello nella sessione
