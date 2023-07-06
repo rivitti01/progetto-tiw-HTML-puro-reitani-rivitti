@@ -1,10 +1,13 @@
-CREATE TABLE fornitore(
+drop schema if exists tiw;
+create schema tiw;
+
+CREATE TABLE IF NOT EXISTS tiw.fornitore(
     codice_fornitore int primary key auto_increment,
     nome_fornitore VARCHAR(255) not null,
     valutazione int not null check (valutazione > 0 and valutazione < 6),
     soglia int not null check (soglia > 0)
 );
-CREATE TABLE utente(
+CREATE TABLE IF NOT EXISTS tiw.utente(
     email VARCHAR(255) primary key,
     nome VARCHAR(255) not null,
     cognome VARCHAR(255) not null,
@@ -12,22 +15,23 @@ CREATE TABLE utente(
     password VARCHAR(255) not null
 );
 
-CREATE TABLE prodotto(
+CREATE TABLE IF NOT EXISTS tiw.prodotto(
     codice_prodotto int primary key auto_increment,
     nome_prodotto VARCHAR(255) not null,
     categoria VARCHAR(255) not null,
     foto VARCHAR(255) not null,
     descrizione VARCHAR(255) not null
 );
-CREATE TABLE ordini (
+CREATE TABLE IF NOT EXISTS tiw.ordini (
     codice_ordine INT PRIMARY KEY AUTO_INCREMENT,
     nome_fornitore VARCHAR(255),
     data_spedizione DATE NOT NULL,
+    indirizzo_spedizione VARCHAR(255) NOT NULL,
     prezzo_totale INT NOT NULL CHECK (prezzo_totale > 0),
     email VARCHAR(255),
     FOREIGN KEY (email) REFERENCES utente(email)
 );
-CREATE TABLE fasce(
+CREATE TABLE IF NOT EXISTS tiw.fasce(
     codice_fornitore int not null,
     min int not null check (min > 0),
     max int not null check (max > 0),
@@ -49,7 +53,7 @@ CREATE TABLE fasce(
         AND (f2.min = fasce.max + 1 OR f2.min = 1)
     ))*/
 );
-create table visualizza(
+create table IF NOT EXISTS tiw.visualizza(
     email VARCHAR(255),
     codice_prodotto int,
     data timestamp default current_timestamp,
@@ -57,17 +61,17 @@ create table visualizza(
     foreign key (email) references utente(email),
     foreign key (codice_prodotto) references prodotto(codice_prodotto)
 );
-create table vende(
+create table IF NOT EXISTS tiw.vende(
     codice_fornitore int not null,
     codice_prodotto int not null,
     prezzo int not null check (prezzo > 0),
-    scnto float not null check (scnto > 0 and scnto < 1),
+    sconto float not null check (sconto > 0 and sconto < 1),
     primary key (codice_fornitore, codice_prodotto),
     foreign key (codice_fornitore) references fornitore(codice_fornitore),
     foreign key (codice_prodotto) references prodotto(codice_prodotto)
 );
 
-create table informazioni(
+create table IF NOT EXISTS tiw.informazioni(
     codice_ordine int not null,
     codice_prodotto int not null,
     nome VARCHAR(255) not null,
@@ -87,19 +91,19 @@ create table informazioni(
 
 
 -- Popolazione della tabella "fornitore"
-INSERT INTO fornitore (nome_fornitore, valutazione, soglia)
+INSERT INTO tiw.fornitore (nome_fornitore, valutazione, soglia)
 VALUES ('Fornitore A', 4, 400),
        ('Fornitore B', 5, 350),
        ('Fornitore C', 3, 150);
 
 -- Popolazione della tabella "utente"
-INSERT INTO utente (email, nome, cognome, indirizzo, password)
+INSERT INTO tiw.utente (email, nome, cognome, indirizzo, password)
 VALUES ('utente1@example.com', 'Mario', 'Rossi', 'Via Roma 1', 'password1'),
        ('utente2@example.com', 'Laura', 'Verdi', 'Via Milano 2', 'password2'),
        ('utente3@example.com', 'Giovanni', 'Bianchi', 'Via Napoli 3', 'password3');
 
 -- Popolazione della tabella "prodotto"
-INSERT INTO prodotto (nome_prodotto, categoria, foto, descrizione)
+INSERT INTO tiw.prodotto (nome_prodotto, categoria, foto, descrizione)
 VALUES
     ('Smartphone Galaxy S21', 'Informatica', 'smartphone_galaxy_s21.jpg', 'Potente smartphone con schermo AMOLED e fotocamera di alta qualità.'),
     ('Laptop ThinkPad X1 Carbon', 'Informatica', 'laptop_thinkpad_x1_carbon.jpg', 'Notebook leggero e performante con display ad alta risoluzione.'),
@@ -120,7 +124,7 @@ VALUES
     ('Set di pentole in acciaio inox Lagostina', 'Cucina', 'pentole_acciaio_inox_lagostina.jpg', 'Set di pentole di alta qualità in acciaio inox per cucinare con precisione e stile.');
 
 -- Popolazione della tabella "fasce"
-INSERT INTO fasce (codice_fornitore, min, max, prezzo)
+INSERT INTO tiw.fasce (codice_fornitore, min, max, prezzo)
 VALUES (1, 1, 10, 100),
        (1, 11, 20, 90),
        (2, 1, 5, 50),
@@ -128,13 +132,13 @@ VALUES (1, 1, 10, 100),
        (2, 11, 15, 40);
 
 -- Popolazione della tabella "ordini"
-INSERT INTO ordini (nome_fornitore, data_spedizione, prezzo_totale, email)
-VALUES ('Fornitore A', '2023-05-20', 440, 'utente1@example.com'),
-       ('Fornitore B', '2023-05-21', 360, 'utente2@example.com'),
-       ('Fornitore B', '2023-05-22', 3499, 'utente3@example.com');
+INSERT INTO tiw.ordini (nome_fornitore, data_spedizione,indirizzo_spedizione, prezzo_totale, email)
+VALUES ('Fornitore A', '2023-05-20','Via Roma 1', 440, 'utente1@example.com'),
+       ('Fornitore B', '2023-05-21','Via Milano 2', 360, 'utente2@example.com'),
+       ('Fornitore B', '2023-05-22','Via Napoli 3', 3499, 'utente3@example.com');
 
 -- Popolazione della tabella "visualizza"
-INSERT INTO visualizza (email, codice_prodotto, data)
+INSERT INTO tiw.visualizza (email, codice_prodotto, data)
 VALUES ('utente1@example.com', 1, 20090521153614),
        ('utente1@example.com', 2, 20090522153614),
        ('utente1@example.com', 3, 20090523153614),
@@ -146,14 +150,14 @@ VALUES ('utente1@example.com', 1, 20090521153614),
        ('utente3@example.com', 3, 20050528183614);
 
 -- Popolazione della tabella "vende"
-INSERT INTO vende (codice_fornitore, codice_prodotto, prezzo, scnto)
+INSERT INTO tiw.vende (codice_fornitore, codice_prodotto, prezzo, sconto)
 VALUES (1, 1, 100, 0.1),
        (1, 2, 80, 0.05),
        (2, 2, 70, 0.15),
        (2, 3, 60, 0.2);
 
 -- Popolazione della tabella "informazioni"
-INSERT INTO informazioni (codice_ordine, codice_prodotto, nome, foto, categoria, quantita, prezzo_unitario, descrizione)
+INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, foto, categoria, quantita, prezzo_unitario, descrizione)
 VALUES
     (1, 1, 'Smartphone Galaxy S21', 'smartphone_galaxy_s21.jpg', 'Elettronica', 2, 899, 'Potente smartphone con schermo AMOLED e fotocamera di alta qualità.'),
     (1, 2, 'Laptop ThinkPad X1 Carbon', 'laptop_thinkpad_x1_carbon.jpg', 'Informatica', 1, 1599, 'Notebook leggero e performante con display ad alta risoluzione.'),

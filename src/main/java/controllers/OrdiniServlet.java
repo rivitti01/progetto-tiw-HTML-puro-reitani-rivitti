@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @WebServlet("/Ordini")
 public class OrdiniServlet extends ServletPadre {
@@ -43,7 +44,7 @@ public class OrdiniServlet extends ServletPadre {
         }*/
         Map<Ordine,List<Prodotto>> ordini;
         try {
-            ordini = getOrdini2(email);
+            ordini = getOrdini(email);
             if (ordini == null) {
                 ctx.setVariable("error", "No orders found");
                 return;
@@ -60,15 +61,11 @@ public class OrdiniServlet extends ServletPadre {
 
     }
 
-    private List<Ordine> getOrdini(String email) throws SQLException {
+    private Map<Ordine,List<Prodotto>> getOrdini(String email) throws SQLException {
         OrdineDAO ordineDAO = new OrdineDAO(connection);
-        List<Ordine> ordini = ordineDAO.getOrdersByEmail(email);
-        return ordini;
-    }
-    private Map<Ordine,List<Prodotto>> getOrdini2(String email) throws SQLException {
-        OrdineDAO ordineDAO = new OrdineDAO(connection);
-        Map<Ordine,List<Prodotto>> ordini2 = ordineDAO.getOrdersByEmail2(email);
+        Map<Ordine,List<Prodotto>> ordini2 = ordineDAO.getOrdersByEmail(email);
         return ordini2;
     }
+
 
 }

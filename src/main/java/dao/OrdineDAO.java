@@ -5,10 +5,7 @@ import beans.Prodotto;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrdineDAO {
 
@@ -17,23 +14,8 @@ public class OrdineDAO {
         this.con = connection;
     }
 
-    public List<Ordine> getOrdersByEmail (String email) throws SQLException{
-        List<Ordine> ordini = new ArrayList<>();
-        String query = "SELECT * FROM ordini WHERE email = ? ORDER BY data_spedizione DESC";
-        try (PreparedStatement pstatement = con.prepareStatement(query)) {
-            pstatement.setString(1, email);
-            try (ResultSet result = pstatement.executeQuery();) {
-                while (result.next()) {
-                    Ordine ordine = mapRowToOrdine(result);
-                    ordini.add(ordine);
-                }
-            }
-
-        }
-        return ordini;
-    }
-    public Map<Ordine,List<Prodotto>> getOrdersByEmail2 (String email) throws SQLException{
-        Map<Ordine,List<Prodotto>> prodottiPerOdine = new HashMap<>();
+    public Map<Ordine,List<Prodotto>> getOrdersByEmail(String email) throws SQLException{
+        Map<Ordine,List<Prodotto>> prodottiPerOdine = new LinkedHashMap<>();
         List<Ordine> ordini = new ArrayList<>();
         String query = "SELECT * FROM ordini WHERE email = ? ORDER BY data_spedizione DESC";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {

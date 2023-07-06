@@ -8,6 +8,7 @@ public class Ordine {
     private Date dataSpedizione;
     private int prezzoTotale;
     private String email;
+    private String indirizzoSpedizione;
 
     public int getCodiceOrdine() {
         return codiceOrdine;
@@ -47,5 +48,13 @@ public class Ordine {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getIndirizzoSpedizione() {
+        return indirizzoSpedizione;
+    }
+
+    public void setIndirizzoSpedizione(String indirizzoSpedizione) {
+        this.indirizzoSpedizione = indirizzoSpedizione;
     }
 }

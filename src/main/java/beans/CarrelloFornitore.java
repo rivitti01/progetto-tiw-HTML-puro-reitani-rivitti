@@ -12,7 +12,7 @@ public class CarrelloFornitore {
     private int prezzoSpedizione = 0;
     private int prezzoTotaleProdotti = 0;
     private int quantitaTotaleProdotti = 0;
-    private Map<Prodotto, Integer> prodotti = new HashMap<Prodotto , Integer>();
+    private Map<Prodotto, Integer> prodotti = new HashMap<>();
 
     public CarrelloFornitore(Fornitore fornitore){
         this.fornitore = fornitore;

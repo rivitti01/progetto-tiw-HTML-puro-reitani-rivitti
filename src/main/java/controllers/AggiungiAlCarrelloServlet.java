@@ -106,7 +106,6 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");
         if (carrello == null) {
             carrello = new HashMap<Integer, CarrelloFornitore>();
-            session.setAttribute("carrello", carrello);
         }
 
         //prendo il carrello del fornitore, se non c'è lo creo
