@@ -26,7 +26,6 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
 
@@ -93,7 +92,7 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         //controllo che il fornitore venda quel prodotto
         VendeDAO vendeDAO = new VendeDAO(connection);
         try {
-            if(vendeDAO.getPrice(IDFornitore, IDProdotto) == -1){
+            if(vendeDAO.getPrice(IDProdotto,IDFornitore) == -1){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().println("il fornitore non vende il prodotto selezionato");
                 return;
@@ -135,7 +134,6 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         session.setAttribute("carrello", carrello);
 
         //aggiorno la pagina
-        ctx.setVariable("carrello", carrello);
         String path = getServletContext().getContextPath() + "/Carrello";
         response.sendRedirect(path);
     }
