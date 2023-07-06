@@ -4,6 +4,7 @@ import beans.CarrelloFornitore;
 import dao.CarrelloFornitoreDAO;
 import dao.FornitoreDAO;
 import dao.ProdottoDAO;
+import dao.VendeDAO;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
@@ -87,6 +88,18 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("la quantità non può essere minore di 1");
             return;
+        }
+
+        //controllo che il fornitore venda quel prodotto
+        VendeDAO vendeDAO = new VendeDAO(connection);
+        try {
+            if(vendeDAO.getPrice(IDFornitore, IDProdotto) == -1){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("il fornitore non vende il prodotto selezionato");
+                return;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
