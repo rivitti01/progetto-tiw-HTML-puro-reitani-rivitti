@@ -89,7 +89,7 @@
             </form>
         </td>
         <td th:text="${risultato.nomeProdotto}" colspan="3"></td>
-        <td th:text="${risultato.prezzo}" colspan="3"></td>
+        <td th:text="${risultato.prezzo} + '$'" colspan="3"></td>
     </tr>
     <div th:if="${risultato.espandere}">
         <tr rowspan="2">
@@ -101,26 +101,41 @@
                 <span th:text="${prodottoMap.get(risultato).descrizione}"></span>
             </td>
         </tr>
+        <tr >
+            <td>Nome fornitore</td>
+            <td>Valutazione</td>
+            <td>Spese Spedizione</td>
+            <td>Soglia spedizione gratuita</td>
+            <td>Prodotti già nel carrello</td>
+            <td>Prezzo nel carrello</td>
+            <td>prezzo</td>
+            <td colspan="2">Aggiungi al carrello</td>
+        </tr>
         <div th:each="fornitore : ${fornitoreMap.get(prodottoMap.get(risultato))}">
             <tr>
                 <td th:text="${fornitore.nomeFornitore}"></td>
                 <td th:text="${fornitore.valutazione}"></td>
                 <td>
                     <div th:each="fascia : ${fasceMap.get(fornitore)}">
-                        tra <span th:text="${fascia.min}"></span> e <span th:text="${fascia.max}"></span> il prezzo é:
-                        <span th:text="${fascia.prezzo}"></span>
+                        tra <span th:text="${fascia.min}"></span> e <span th:text="${fascia.max}"></span> il prezzo è:
+                        <span th:text="${fascia.prezzo}+ '$'"></span>
                     </div>
                 </td>
                 <td th:text="${fornitore.soglia}"></td>
-                <td>prodotti già nel carrello</td>
-                <td>prezzo già nel carrello</td>
-                <td th:text="${prezzoUnitarioMap.get(fornitore).get(risultato)}"></td>
+                <div th:if="${carrello.get(fornitore.codiceFornitore)!=null}">
+                <td th:text="${carrello.get(fornitore.codiceFornitore).getQuantitaTotaleProdotti()}"></td>
+                <td th:text="${carrello.get(fornitore.codiceFornitore).getPrezzoTotaleProdotti()}">prezzo già nel carrello</td>
+                </div>
+                <div th:unless="${carrello.get(fornitore.codiceFornitore)!=null}">
+                    <td>0</td>
+                    <td>0</td>
+                </div>
+                <td th:text="${prezzoUnitarioMap.get(fornitore).get(risultato)}+ '$'"></td>
                 <td colspan="2">
                     <form action="AggiungiAlCarrello" method="POST">
                         <input type="text" id="quantità" name="quantità" placeholder="quantità" required >
                         <input type="hidden" id="codiceProdotto" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
                         <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${fornitore.codiceFornitore}">
-                        <!--<input type="hidden" id="prezzoUnitario" name="prezzoUnitario" th:value="${prezzoUnitarioMap.get(fornitore)}"> il prezzo unitario lo riprendo direttamente dal server-->
                         <button>Aggiungi al carrello</button>
                     </form>
                 </td>

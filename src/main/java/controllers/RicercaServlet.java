@@ -2,9 +2,11 @@ package controllers;
 
 import javax.servlet.annotation.WebServlet;
 
+import beans.CarrelloFornitore;
 import beans.Fasce;
 import beans.Fornitore;
 import beans.Prodotto;
+import com.mysql.cj.Session;
 import dao.*;
 import org.thymeleaf.context.WebContext;
 import utils.Risultato;
@@ -17,6 +19,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @WebServlet("/Ricerca")
 public class RicercaServlet extends ServletPadre {
     public RicercaServlet() {
@@ -123,6 +127,13 @@ public class RicercaServlet extends ServletPadre {
         ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         ctx.setVariable("risultati", risultati);
         ctx.setVariable("word", word);
+        HttpSession session = request.getSession();
+        //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
+        HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");
+        if (carrello == null) {
+            carrello = new HashMap<Integer, CarrelloFornitore>();
+        }
+        ctx.setVariable("carrello", carrello);
 
 
         templateEngine.process("WEB-INF/risultati.html", ctx, response.getWriter());
