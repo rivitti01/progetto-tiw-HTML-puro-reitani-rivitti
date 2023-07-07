@@ -72,6 +72,7 @@
             <th>Nome fornitore</th>
             <th>Data</th>
             <th>Prezzo totale</th>
+            <th>Indirizzo di spedizione</th>
         </tr>
         </thead>
         <tbody th:each="ordine : ${ordini}">
@@ -79,16 +80,20 @@
             <td th:text="${ordine.key.codiceOrdine}"></td>
             <td th:text="${ordine.key.nomeFornitore}"></td>
             <td th:text="${ordine.key.dataSpedizione}"></td>
-            <td th:text="${ordine.key.prezzoTotale}"></td>
+            <td th:text="${ordine.key.prezzoTotale}+'$'"></td>
+            <td th:text="${ordine.key.indirizzoSpedizione}"></td>
         </tr>
-        <tr>
-            <td colspan="4" style="text-align: center">Prodotti:</td>
+        <tr style="text-align: center">
+            <td colspan="4">Prodotti:</td>
+            <td colspan="1">Quantità:</td>
         </tr>
         <tr th:each="prodotto : ${ordine.value}" >
-            <td colspan="4" th:text="${prodotto.nomeProdotto}">  </td>
+            <td colspan="4" th:text="${prodotto.nomeProdotto}"></td>
+            <td colspan="1"></td>
+
         </tr>
         <tr >
-            <td colspan="4"></td>
+            <td colspan="5"></td>
         </tr>
         </tbody>
     </table>
