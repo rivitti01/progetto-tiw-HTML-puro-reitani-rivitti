@@ -65,10 +65,10 @@
         </tr>
         <tr th:each="prodotto : ${int.value.getProdotti()}" >
             <td colspan="2" th:text="${prodotto.key.nomeProdotto }"></td>
-            <td colspan="2" th:text="${prodotto.value}"></td>
+            <td colspan="2" th:text="'quantità: '+${prodotto.value}"></td>
         </tr>
-            <td th:text="${int.value.prezzoTotaleProdotti}"></td>
-            <td th:text="${int.value.prezzoSpedizione}"></td>
+            <td th:text="'Prezzo dei prodotti: '+${int.value.prezzoTotaleProdotti}+'$'"></td>
+            <td th:text="'prezzo della spedizione: '+${int.value.prezzoSpedizione}+'$'"></td>
             <td colspan="2">
                 <form action="CreaOrdine" method="POST">
                     <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${int.value.fornitore.codiceFornitore}">
