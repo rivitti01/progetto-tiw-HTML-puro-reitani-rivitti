@@ -124,7 +124,7 @@
                 <td th:text="${fornitore.soglia}"></td>
                 <div th:if="${carrello.get(fornitore.codiceFornitore)!=null}">
                 <td th:text="${carrello.get(fornitore.codiceFornitore).getQuantitaTotaleProdotti()}"></td>
-                <td th:text="${carrello.get(fornitore.codiceFornitore).getPrezzoTotaleProdotti()}">prezzo già nel carrello</td>
+                <td th:text="${carrello.get(fornitore.codiceFornitore).getPrezzoTotaleProdotti()}+'$'"></td>
                 </div>
                 <div th:unless="${carrello.get(fornitore.codiceFornitore)!=null}">
                     <td>0</td>

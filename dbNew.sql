@@ -65,7 +65,7 @@ create table IF NOT EXISTS tiw.vende(
     codice_fornitore int not null,
     codice_prodotto int not null,
     prezzo int not null check (prezzo > 0),
-    sconto float not null check (sconto > 0 and sconto < 1),
+    sconto float not null check (sconto >= 0 and sconto < 1),
     primary key (codice_fornitore, codice_prodotto),
     foreign key (codice_fornitore) references fornitore(codice_fornitore),
     foreign key (codice_prodotto) references prodotto(codice_prodotto)
@@ -90,9 +90,9 @@ create table IF NOT EXISTS tiw.informazioni(
 
 -- Popolazione della tabella "fornitore"
 INSERT INTO tiw.fornitore (nome_fornitore, valutazione, soglia)
-VALUES ('Fornitore A', 4, 400),
-       ('Fornitore B', 5, 350),
-       ('Fornitore C', 3, 150);
+VALUES ('Fornitore A', 4, 20),
+       ('Fornitore B', 5, 15),
+       ('Fornitore C', 3, 10);
 
 -- Popolazione della tabella "utente"
 INSERT INTO tiw.utente (email, nome, cognome, indirizzo, password)
@@ -123,11 +123,13 @@ VALUES
 
 -- Popolazione della tabella "fasce"
 INSERT INTO tiw.fasce (codice_fornitore, min, max, prezzo)
-VALUES (1, 1, 10, 100),
-       (1, 11, 20, 90),
+VALUES (1, 1, 10, 30),
+       (1, 11, 19, 20),
        (2, 1, 5, 50),
        (2, 6, 10, 45),
-       (2, 11, 15, 40);
+       (2, 11, 14, 40),
+       (3,1,4,25),
+       (3,5,9,15);
 
 -- Popolazione della tabella "ordini"
 INSERT INTO tiw.ordini (nome_fornitore, data_spedizione,indirizzo_spedizione, prezzo_totale, email)
@@ -151,8 +153,28 @@ VALUES ('utente1@example.com', 1, 20090521153614),
 INSERT INTO tiw.vende (codice_fornitore, codice_prodotto, prezzo, sconto)
 VALUES (1, 1, 100, 0.1),
        (1, 2, 80, 0.05),
+       (1,4,15000,0),
+       (1,7,620,0),
+       (1,10,180,0),
+       (1,12,30,0),
+       (1,15,45,0),
+       (1,17,78,0),
        (2, 2, 70, 0.15),
-       (2, 3, 60, 0.2);
+       (2, 3, 60, 0.2),
+       (2,6,230,0),
+       (2,8,650,0.2),
+       (2,10,210,0),
+       (2,11,90,0),
+       (2,13,220,0.1),
+       (2,16,30,0),
+       (2,17,76,0),
+       (3,5,1000,0.15),
+       (3,6,400,0),
+       (3,9,23,0),
+       (3,10,200,0.1),
+       (3,11,100,0),
+       (3,12,25,0),
+       (3,13,200,0);
 
 -- Popolazione della tabella "informazioni"
 INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, foto, quantita, prezzo_unitario)
