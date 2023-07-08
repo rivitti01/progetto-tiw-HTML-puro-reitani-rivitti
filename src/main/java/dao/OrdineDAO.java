@@ -1,5 +1,6 @@
 package dao;
 
+import beans.Informazioni;
 import beans.Ordine;
 import beans.Prodotto;
 
@@ -14,8 +15,8 @@ public class OrdineDAO {
         this.con = connection;
     }
 
-    public Map<Ordine,List<Prodotto>> getOrdersByEmail(String email) throws SQLException{
-        Map<Ordine,List<Prodotto>> prodottiPerOdine = new LinkedHashMap<>();
+    public Map<Ordine,List<Informazioni>> getOrdersByEmail(String email) throws SQLException{
+        Map<Ordine,List<Informazioni>> prodottiPerOdine = new LinkedHashMap<>();
         List<Ordine> ordini = new ArrayList<>();
         String query = "SELECT * FROM ordini WHERE email = ? ORDER BY data_spedizione DESC";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
@@ -28,18 +29,18 @@ public class OrdineDAO {
             }
 
         }
-        String query2 = "SELECT codice_prodotto, nome FROM informazioni WHERE codice_ordine = ?";
+        String query2 = "SELECT codice_prodotto, nome, quantita FROM informazioni WHERE codice_ordine = ?";
 
         for (Ordine ordine : ordini) {
-            List<Prodotto> prodotti = new ArrayList<>();
+            List<Informazioni> informazioni = new ArrayList<>();
             try (PreparedStatement pstatement = con.prepareStatement(query2)) {
                 pstatement.setInt(1, ordine.getCodiceOrdine());
                 try (ResultSet result = pstatement.executeQuery();) {
                     while (result.next()) {
-                        Prodotto prodotto = mapRowToProdotto(result);
-                        prodotti.add(prodotto);
+                        Informazioni informazione = mapRowToInformazione(result);
+                        informazioni.add(informazione);
                     }
-                    prodottiPerOdine.put(ordine, prodotti);
+                    prodottiPerOdine.put(ordine, informazioni);
                 }
             }
         }
@@ -85,11 +86,12 @@ public class OrdineDAO {
         ordine.setIndirizzoSpedizione(result.getString("indirizzo_spedizione"));
         return ordine;
     }
-    private Prodotto mapRowToProdotto(ResultSet result) throws SQLException {
-        Prodotto prodotto = new Prodotto();
-        prodotto.setCodiceProdotto(result.getInt("codice_prodotto"));
-        prodotto.setNomeProdotto(result.getString("nome"));
-        return prodotto;
+    private Informazioni mapRowToInformazione(ResultSet result) throws SQLException {
+        Informazioni informazione = new Informazioni();
+        informazione.setCodiceProdotto(result.getInt("codice_prodotto"));
+        informazione.setNome(result.getString("nome"));
+        informazione.setQuantità(result.getInt("quantita"));
+        return informazione;
     }
 
 }

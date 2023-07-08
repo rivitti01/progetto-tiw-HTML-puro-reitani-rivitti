@@ -64,7 +64,7 @@
 </div>-->
 
 <div class="centered-row">
-    <table>
+    <table th:if="${!ordini.isEmpty()}">
         <caption>Ecco i tuoi ordini</caption>
         <thead>
         <tr>
@@ -88,8 +88,8 @@
             <td colspan="1">Quantità:</td>
         </tr>
         <tr th:each="prodotto : ${ordine.value}" >
-            <td colspan="4" th:text="${prodotto.nomeProdotto}"></td>
-            <td colspan="1"></td>
+            <td colspan="4" th:text="${prodotto.nome}"></td>
+            <td colspan="1" th:text="${prodotto.quantità}"></td>
 
         </tr>
         <tr >
@@ -97,6 +97,7 @@
         </tr>
         </tbody>
     </table>
+    <h2 th:if="${ordini.isEmpty()}">Non hai ancora effettuato ordini</h2>
 </div>
 
 </body>

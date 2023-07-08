@@ -1,5 +1,6 @@
 package controllers;
 
+import beans.Informazioni;
 import beans.Ordine;
 import beans.Prodotto;
 import dao.OrdineDAO;
@@ -25,24 +26,9 @@ public class OrdiniServlet extends ServletPadre {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        /*if (session.isNew() || session.getAttribute("email") == null) {
-            String loginpath = getServletContext().getContextPath() + "/index.html";
-            response.sendRedirect(loginpath);
-            return;
-        }*/
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
-        /*List<Ordine> ordini;
-        try {
-            ordini = getOrdini(email);
-            if (ordini == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "No orders found");
-                return;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-        Map<Ordine,List<Prodotto>> ordini;
+        Map<Ordine,List<Informazioni>> ordini;
         try {
             ordini = getOrdini(email);
             if (ordini == null) {
@@ -61,9 +47,9 @@ public class OrdiniServlet extends ServletPadre {
 
     }
 
-    private Map<Ordine,List<Prodotto>> getOrdini(String email) throws SQLException {
+    private Map<Ordine,List<Informazioni>> getOrdini(String email) throws SQLException {
         OrdineDAO ordineDAO = new OrdineDAO(connection);
-        Map<Ordine,List<Prodotto>> ordini2 = ordineDAO.getOrdersByEmail(email);
+        Map<Ordine,List<Informazioni>> ordini2 = ordineDAO.getOrdersByEmail(email);
         return ordini2;
     }
 
