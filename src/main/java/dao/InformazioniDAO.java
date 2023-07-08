@@ -23,7 +23,7 @@ public class InformazioniDAO {
             pstatement.setString(3, informazione.getNome());
             pstatement.setInt(4, informazione.getQuantità());
             pstatement.setFloat(5, informazione.getPrezzoUnitario());
-            pstatement.setString(6, informazione.getFoto());
+            pstatement.setBlob(6, informazione.getFoto());
             pstatement.executeUpdate();
 
         }

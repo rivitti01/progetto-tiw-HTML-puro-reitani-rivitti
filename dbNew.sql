@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS tiw.prodotto(
     codice_prodotto int primary key auto_increment,
     nome_prodotto VARCHAR(255) not null,
     categoria VARCHAR(255) not null,
-    foto VARCHAR(255) not null,
+    foto LONGBLOB,
     descrizione VARCHAR(255) not null
 );
 CREATE TABLE IF NOT EXISTS tiw.ordini (
@@ -75,7 +75,7 @@ create table IF NOT EXISTS tiw.informazioni(
     codice_ordine int not null,
     codice_prodotto int not null,
     nome VARCHAR(255) not null,
-    foto VARCHAR(255) not null,
+    foto LONGBLOB not null,
     quantita int not null check (quantita > 0),
     prezzo_unitario float not null check (prezzo_unitario > 0),
     primary key (codice_ordine, codice_prodotto),

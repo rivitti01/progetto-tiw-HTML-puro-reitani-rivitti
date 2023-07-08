@@ -1,5 +1,7 @@
 package beans;
 
+import java.sql.Blob;
+
 public class Informazioni {
 
     private int codiceProdotto;
@@ -7,7 +9,7 @@ public class Informazioni {
     private int quantità;
     private float prezzoUnitario;
     private String nome;
-    private String foto;
+    private Blob foto;
 
 
     public int getCodiceProdotto() {
@@ -50,11 +52,11 @@ public class Informazioni {
         this.nome = nome;
     }
 
-    public String getFoto() {
+    public Blob getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(Blob foto) {
         this.foto = foto;
     }
 }

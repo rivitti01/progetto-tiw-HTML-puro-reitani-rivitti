@@ -94,7 +94,7 @@
     <div th:if="${risultato.espandere}">
         <tr rowspan="2">
             <td colspan="2">
-                foto
+                <img th:src="${'data:image/jpg;base64,' + fotoMap.get(risultato.codiceProdotto)}" width="100" height="100" alt="foto"/>
             </td>
             <td colspan="7">
                 <p>catgoria:<span th:text="${prodottoMap.get(risultato).categoria}"></span></p>

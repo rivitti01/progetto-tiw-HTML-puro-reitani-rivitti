@@ -6,9 +6,14 @@ import dao.ProdottoDAO;
 import dao.VisualizzaDAO;
 import org.thymeleaf.context.WebContext;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +28,9 @@ public class HomeServlet extends ServletPadre {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Controlla se l'utente è già loggato, in caso positivo va direttamente alla home
         HttpSession session = request.getSession();
-        /*if (session.isNew() || session.getAttribute("email") == null) {
-            String loginpath = getServletContext().getContextPath() + "/index.html";
-            response.sendRedirect(loginpath);
-            return;
-        }*/
+        String basePath = getServletContext().getInitParameter("dbImages");
+
+
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
         List<Prodotto> products;
@@ -36,6 +39,17 @@ public class HomeServlet extends ServletPadre {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        Map<Integer,String> fotoMap = new LinkedHashMap<>();
+        for (Prodotto prodotto : products){
+            try {
+                fotoMap.put(prodotto.getCodiceProdotto(),Base64.getEncoder().encodeToString(prodotto.getFoto().getBytes(1, (int) prodotto.getFoto().length())));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        ctx.setVariable("fotoMap", fotoMap);
         ctx.setVariable("products", products);
 
 

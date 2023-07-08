@@ -1,12 +1,13 @@
 package beans;
 
 import java.beans.Beans;
+import java.sql.Blob;
 
 public class Prodotto {
     private int codiceProdotto;
     private String nomeProdotto;
     private String categoria;
-    private String foto;
+    private Blob foto;
     private String descrizione;
 
     public int getCodiceProdotto() {
@@ -33,11 +34,11 @@ public class Prodotto {
         this.categoria = categoria;
     }
 
-    public String getFoto() {
+    public Blob getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(Blob foto) {
         this.foto = foto;
     }
 

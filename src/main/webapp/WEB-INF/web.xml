@@ -6,7 +6,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <context-param>
     <param-name>dbUrl</param-name>
-    <param-value>jdbc:mysql://localhost:3306/tiw?serverTimezone=UTC</param-value>
+    <param-value>jdbc:mysql://localhost:3306/tiw</param-value>
   </context-param>
   <context-param>
     <param-name>dbUser</param-name>
@@ -14,10 +14,14 @@
   </context-param>
   <context-param>
     <param-name>dbPassword</param-name>
-    <param-value>RootRei27!!</param-value> <!-- password del database -->
+    <param-value>francesco</param-value> <!-- password del database -->
   </context-param>
   <context-param>
     <param-name>dbDriver</param-name>
     <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbImages</param-name>
+    <param-value>/Users/francescorivitti//Desktop/tiw/images</param-value> <!-- path della cartella immagini -->
   </context-param>
 </web-app>

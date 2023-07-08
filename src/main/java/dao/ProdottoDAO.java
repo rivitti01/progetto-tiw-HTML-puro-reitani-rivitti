@@ -1,7 +1,6 @@
 package dao;
 
 import beans.Prodotto;
-import beans.Utente;
 import beans.Visualizza;
 
 import java.sql.Connection;
@@ -34,7 +33,7 @@ public class ProdottoDAO {
     }
 
     public List<Prodotto> searchByWord (String word) throws SQLException {
-        List<Prodotto> prodotti = new ArrayList<Prodotto>();
+        List<Prodotto> prodotti = new ArrayList<>();
         String query = "SELECT codice_prodtto,nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setString(1, "%" + word + "%");
@@ -58,11 +57,12 @@ public class ProdottoDAO {
 */
 
     private Prodotto mapRowToProdotto(ResultSet result) throws SQLException {
+
         Prodotto prodotto = new Prodotto();
         prodotto.setCodiceProdotto(result.getInt("codice_prodotto"));
         prodotto.setNomeProdotto(result.getString("nome_prodotto"));
         prodotto.setCategoria(result.getString("categoria"));
-        prodotto.setFoto(result.getString("foto"));
+        prodotto.setFoto(result.getBlob("foto"));
         prodotto.setDescrizione(result.getString("descrizione"));
         return prodotto;
     }

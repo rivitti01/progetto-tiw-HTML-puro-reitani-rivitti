@@ -6,7 +6,6 @@ import beans.CarrelloFornitore;
 import beans.Fasce;
 import beans.Fornitore;
 import beans.Prodotto;
-import com.mysql.cj.Session;
 import dao.*;
 import org.thymeleaf.context.WebContext;
 import utils.Risultato;
@@ -14,6 +13,7 @@ import utils.Risultato;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -98,10 +98,12 @@ public class RicercaServlet extends ServletPadre {
         HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
         HashMap < Risultato, Prodotto> prodottoMap = new HashMap<>();
         HashMap < Fornitore, HashMap > prezzoUnitarioMap = new HashMap<>();
+        HashMap <Integer, String> fotoMap = new HashMap<>();
         for(Risultato r : risultati){
             if (r.isEspandere()){
                 try {
                     Prodotto p = prodottoDAO.getInformation(r.getCodiceProdotto());
+                    fotoMap.put(p.getCodiceProdotto(), Base64.getEncoder().encodeToString(p.getFoto().getBytes(1, (int) p.getFoto().length())));
                     List<Fornitore> fornitori = vendeDAO.getFornitori(p.getCodiceProdotto());
                     for (Fornitore f : fornitori){
                         HashMap<Risultato, Float> ausiliariaMap = new HashMap<>();
@@ -121,6 +123,7 @@ public class RicercaServlet extends ServletPadre {
                 }
             }
         }
+        ctx.setVariable("fotoMap", fotoMap);
         ctx.setVariable("fornitoreMap", fornitoreMap);
         ctx.setVariable("fasceMap", fasceMap);
         ctx.setVariable("prodottoMap", prodottoMap);
