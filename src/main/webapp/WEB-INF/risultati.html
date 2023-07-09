@@ -70,7 +70,8 @@
     </form>
 </div>
 
-<table th:if="${risultati.size()>0}">
+<div th:if="${risultati.size()>0}">
+<table>
     <thead>
     <tr>
         <th style="width: 25pc" colspan="3">Codice</th>
@@ -85,6 +86,7 @@
                 <input type="hidden" id="codiceProdottoEspandere" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
                 <input type="hidden" name="word" th:value="${word}"/>
                 <input type="hidden" name="codiceProdottoEspanso" th:each="ris : ${risultati}" th:if="${ris.espandere}" th:value="${ris.codiceProdotto}"/>
+                <input type="hidden" id="posizione" name="posizione" th:value="${posizione}"/>
                 <button th:text="${risultato.codiceProdotto}"></button>
             </form>
         </td>
@@ -144,6 +146,19 @@
     </div>
     </tbody>
 </table>
+    <div>
+        <form action="Ricerca" method="GET" th:if="${posizione>0}">
+            <input type="hidden" id="word-" name="word" th:value="${word}">
+            <input type="hidden" id="posizione-" name="posizione" th:value="${posizione}-5">
+            <button>Pagina Precedente</button>
+        </form>
+        <form action="Ricerca" method="GET" th:if="${!isLastPage}">
+            <input type="hidden" id="word+" name="word" th:value="${word}">
+            <input type="hidden" id="posizione+" name="posizione" th:value="${posizione}+5">
+            <button>Pagina Successiva</button>
+        </form>
+    </div>
+</div>
 <span th:unless="${risultati.size()>0}">
     <h1>Nessun risultato trovato per la tua ricerca!</h1>
 </span>

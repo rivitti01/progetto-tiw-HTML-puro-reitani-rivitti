@@ -66,9 +66,23 @@ public class EspandiServlet extends ServletPadre{
         RisultatoDAO risultatoDAO = new RisultatoDAO(connection);
         List<Risultato> risultati;
 
+        //verifico che la posizione di partenza sia un numero
+        int posizione;
+        try{
+            posizione = Integer.parseInt(request.getParameter("posizione"));
+        }catch (NumberFormatException ex){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "la posizione di partenza non è un numero");
+            return;
+        }
+
+        //verifico che la posizione di partenza sia un numero positivo
+        if(posizione < 0){
+            posizione = 0;
+        }
+
         //prende i risultati dalla parola
         try{
-            risultati = risultatoDAO.searchByWord(word);
+            risultati = risultatoDAO.searchByWord(word, posizione);
         }catch(SQLException ex){
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println("Errore nel caricamento dei risultati");
@@ -115,7 +129,7 @@ public class EspandiServlet extends ServletPadre{
 
 
             //creo il path per mandare alla servlet Ricerca tutti i dati
-        String path = getServletContext().getContextPath() + "/Ricerca?word=" + word ;
+        String path = getServletContext().getContextPath() + "/Ricerca?word=" + word + "&posizione=" + posizione;
         for(int i = 0;i<risultati.size();i++){
             if(risultati.get(i).isEspandere()){
                 path += "&codiceProdottoEspanso=" + risultati.get(i).getCodiceProdotto();

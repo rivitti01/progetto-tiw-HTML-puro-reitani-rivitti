@@ -63,11 +63,25 @@ public class RicercaServlet extends ServletPadre {
             return;
         }
 
+        //verifico che la posizione di partenza sia un numero
+        int posizione;
+        try{
+            posizione = Integer.parseInt(request.getParameter("posizione"));
+        }catch (NumberFormatException ex){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "la posizione di partenza non è un numero");
+            return;
+        }
+
+        //verifico che la posizione di partenza sia un numero positivo
+        if(posizione < 0){
+            posizione = 0;
+        }
+
         //ricerca i prodotti per parola
         RisultatoDAO risultatoDAO = new RisultatoDAO(connection);
         List<Risultato> risultati;
         try {
-            risultati = risultatoDAO.searchByWord(word);
+            risultati = risultatoDAO.searchByWord(word, posizione);
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Query ricerca fallita");
             return;
@@ -80,6 +94,16 @@ public class RicercaServlet extends ServletPadre {
                 return;
             }
         }
+
+        //verifico che non sia l'ultima pagina da caricare
+        boolean isLastPage;
+        if(risultati.size() == 6){
+            isLastPage = false;
+            risultati.remove(5);
+        }else {
+            isLastPage = true;
+        }
+        ctx.setVariable("isLastPage", isLastPage);
 
         //setta gli attributi per la visualizzazione dei risultati
         for(Risultato r : risultati){
@@ -130,6 +154,7 @@ public class RicercaServlet extends ServletPadre {
         ctx.setVariable("prezzoUnitarioMap", prezzoUnitarioMap);
         ctx.setVariable("risultati", risultati);
         ctx.setVariable("word", word);
+        ctx.setVariable("posizione", posizione);
         HttpSession session = request.getSession();
         //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
         HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");

@@ -17,15 +17,16 @@ public class RisultatoDAO {
         this.con = connection;
     }
 
-    public List<Risultato> searchByWord (String word) throws SQLException {
+    public List<Risultato> searchByWord (String word, int posizione) throws SQLException {
         List<Risultato> risultati = new ArrayList<Risultato>();
-        String query = "SELECT vende.codice_prodotto,nome_prodotto, prezzo, sconto\n" +
-                "FROM vende JOIN (SELECT codice_prodotto, nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?) as p\n" +
-                "on vende.codice_prodotto = p.codice_prodotto\n" +
-                "WHERE prezzo = (SELECT MIN(prezzo) FROM vende WHERE codice_prodotto = p.codice_prodotto)";
+        String query = "SELECT vende.codice_prodotto,nome_prodotto, prezzo, sconto " +
+                "FROM vende JOIN (SELECT codice_prodotto, nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?) as p " +
+                "on vende.codice_prodotto = p.codice_prodotto " +
+                "WHERE prezzo = (SELECT MIN(prezzo) FROM vende WHERE codice_prodotto = p.codice_prodotto) limit 6 offset ?";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setString(1, "%" + word + "%");
             pstatement.setString(2, "%" + word + "%");
+            pstatement.setInt(3, posizione);
             try (ResultSet result = pstatement.executeQuery();) {
                 while (result.next()) {
                     Risultato risultato = new Risultato();
