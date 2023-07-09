@@ -5,6 +5,7 @@ public class Fornitore {
     private String nomeFornitore;
     private int valutazione;
     private int soglia;
+    private int spedizioneMin;
 
     public int getCodiceFornitore() {
         return codiceFornitore;
@@ -36,5 +37,12 @@ public class Fornitore {
 
     public void setSoglia(int soglia) {
         this.soglia = soglia;
+    }
+
+    public int getSpedizioneMin() {
+        return spedizioneMin;
+    }
+    public void setSpedizioneMin(int spedizioneMin) {
+        this.spedizioneMin = spedizioneMin;
     }
 }

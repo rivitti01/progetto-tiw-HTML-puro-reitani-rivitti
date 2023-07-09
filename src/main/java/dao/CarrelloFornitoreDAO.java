@@ -31,11 +31,15 @@ public class CarrelloFornitoreDAO {
 
 
         //aggiorno il prezzo della spedizione
-        if (carrelloFornitore.getQuantitaTotaleProdotti() > carrelloFornitore.getFornitore().getSoglia()) {
+        if (carrelloFornitore.getPrezzoTotaleProdotti() > carrelloFornitore.getFornitore().getSoglia()) {
             carrelloFornitore.setPrezzoSpedizione(0);
         } else {
             FasceDAO fasceDAO = new FasceDAO(connection);
-            carrelloFornitore.setPrezzoSpedizione(fasceDAO.getPrice(carrelloFornitore.getFornitore().getCodiceFornitore(), carrelloFornitore.getQuantitaTotaleProdotti()));
+            int spedizione = fasceDAO.getPrice(carrelloFornitore.getFornitore().getCodiceFornitore(), carrelloFornitore.getQuantitaTotaleProdotti());
+            if (spedizione!=-1)
+                carrelloFornitore.setPrezzoSpedizione(spedizione);
+            else
+                carrelloFornitore.setPrezzoSpedizione(carrelloFornitore.getFornitore().getSpedizioneMin());
         }
 
     }

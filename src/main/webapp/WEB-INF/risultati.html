@@ -122,8 +122,9 @@
                         tra <span th:text="${fascia.min}"></span> e <span th:text="${fascia.max}"></span> il prezzo è:
                         <span th:text="${fascia.prezzo}+ '$'"></span>
                     </div>
+                    <div th:text="'oltre: '+${fornitore.spedizioneMin}+'$'"></div>
                 </td>
-                <td th:text="${fornitore.soglia}"></td>
+                <td th:text="${fornitore.soglia}+'$'"></td>
                 <div th:if="${carrello.get(fornitore.codiceFornitore)!=null}">
                 <td th:text="${carrello.get(fornitore.codiceFornitore).getQuantitaTotaleProdotti()}"></td>
                 <td th:text="${carrello.get(fornitore.codiceFornitore).getPrezzoTotaleProdotti()}+'$'"></td>

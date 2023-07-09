@@ -28,6 +28,7 @@ public class FornitoreDAO {
                     fornitore.setNomeFornitore(result.getString("nome_fornitore"));
                     fornitore.setSoglia(result.getInt("soglia"));
                     fornitore.setValutazione(result.getInt("valutazione"));
+                    fornitore.setSpedizioneMin(result.getInt("spedizione_min"));
                     return fornitore;
                 }
             }

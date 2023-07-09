@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS tiw.fornitore(
     codice_fornitore int primary key auto_increment,
     nome_fornitore VARCHAR(255) not null,
     valutazione int not null check (valutazione > 0 and valutazione < 6),
-    soglia int not null check (soglia > 0)
+    soglia int not null check (soglia > 0),
+    spedizione_min int not null check (spedizione_min > 0)
 );
 CREATE TABLE IF NOT EXISTS tiw.utente(
     email VARCHAR(255) primary key,
@@ -89,10 +90,10 @@ create table IF NOT EXISTS tiw.informazioni(
 
 
 -- Popolazione della tabella "fornitore"
-INSERT INTO tiw.fornitore (nome_fornitore, valutazione, soglia)
-VALUES ('Fornitore A', 4, 20),
-       ('Fornitore B', 5, 15),
-       ('Fornitore C', 3, 10);
+INSERT INTO tiw.fornitore (nome_fornitore, valutazione, soglia, spedizione_min)
+VALUES ('Fornitore A', 4, 130, 5),
+       ('Fornitore B', 5, 140, 20),
+       ('Fornitore C', 3, 110,5);
 
 -- Popolazione della tabella "utente"
 INSERT INTO tiw.utente (email, nome, cognome, indirizzo, password)
@@ -125,11 +126,13 @@ VALUES
 INSERT INTO tiw.fasce (codice_fornitore, min, max, prezzo)
 VALUES (1, 1, 10, 30),
        (1, 11, 19, 20),
+       (1,20, 30 ,15),
        (2, 1, 5, 50),
        (2, 6, 10, 45),
        (2, 11, 14, 40),
        (3,1,4,25),
-       (3,5,9,15);
+       (3,5,9,15),
+       (3,10,15,10);
 
 -- Popolazione della tabella "ordini"
 INSERT INTO tiw.ordini (nome_fornitore, data_spedizione,indirizzo_spedizione, prezzo_totale, email)
@@ -171,7 +174,7 @@ VALUES (1, 1, 100, 0.1),
        (2,17,76,0),
        (3,5,1000,0.15),
        (3,6,400,0),
-       (3,9,23,0),
+       (3,9,1,0),
        (3,10,200,0.1),
        (3,11,100,0),
        (3,12,25,0),
