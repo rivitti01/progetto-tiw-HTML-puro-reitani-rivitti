@@ -18,7 +18,7 @@ public class OrdineDAO {
     public Map<Ordine,List<Informazioni>> getOrdersByEmail(String email) throws SQLException{
         Map<Ordine,List<Informazioni>> prodottiPerOdine = new LinkedHashMap<>();
         List<Ordine> ordini = new ArrayList<>();
-        String query = "SELECT * FROM ordini WHERE email = ? ORDER BY data_spedizione DESC";
+        String query = "SELECT * FROM ordini WHERE email = ? ORDER BY codice_ordine DESC";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             try (ResultSet result = pstatement.executeQuery();) {
