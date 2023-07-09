@@ -5,6 +5,7 @@ import beans.Visualizza;
 import dao.ProdottoDAO;
 import dao.VisualizzaDAO;
 import org.thymeleaf.context.WebContext;
+import utils.Constants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,9 +61,14 @@ public class HomeServlet extends ServletPadre {
         VisualizzaDAO visualizzaDAO = new VisualizzaDAO(connection);
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         List<Visualizza> visualizza = null;
+        List<Prodotto> prodotti;
         try {
             visualizza = visualizzaDAO.getLAstFive(email);
-            return prodottoDAO.getFiveVisualizedProduct(visualizza);
+            prodotti = prodottoDAO.getFiveVisualizedProduct(visualizza);
+            if (prodotti.size()< Constants.NUMBER_HOME_PRODUCT){
+                prodottoDAO.completeListVisualized(prodotti);
+            }
+            return prodotti;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

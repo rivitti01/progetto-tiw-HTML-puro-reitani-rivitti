@@ -1,6 +1,7 @@
 package dao;
 
 import beans.Visualizza;
+import utils.Constants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ public class VisualizzaDAO {
     }
 
     public List<Visualizza> getLAstFive (String email) throws SQLException{
-        List<Visualizza> visualizzazioni = new ArrayList<Visualizza>();
+        List<Visualizza> visualizzazioni = new ArrayList<>();
 
         String query = "SELECT * FROM visualizza WHERE email = ? ORDER BY data DESC LIMIT 5";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {

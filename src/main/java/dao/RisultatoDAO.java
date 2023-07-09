@@ -22,7 +22,7 @@ public class RisultatoDAO {
         String query = "SELECT vende.codice_prodotto,nome_prodotto, prezzo, sconto " +
                 "FROM vende JOIN (SELECT codice_prodotto, nome_prodotto FROM prodotto WHERE nome_prodotto LIKE ? OR descrizione LIKE ?) as p " +
                 "on vende.codice_prodotto = p.codice_prodotto " +
-                "WHERE prezzo = (SELECT MIN(prezzo) FROM vende WHERE codice_prodotto = p.codice_prodotto) limit 6 offset ?";
+                "WHERE prezzo = (SELECT MIN(prezzo) FROM vende WHERE codice_prodotto = p.codice_prodotto) ORDER BY prezzo ASC limit 6 offset ? ";
         try (PreparedStatement pstatement = con.prepareStatement(query);) {
             pstatement.setString(1, "%" + word + "%");
             pstatement.setString(2, "%" + word + "%");

@@ -113,13 +113,13 @@ VALUES
     ('Borsa a mano Gucci GG Marmont', 'Moda', 'borsa_gucci_gg_marmont.jpg', 'Elegante borsa in pelle con il classico motivo GG e chiusura a doppia G.'),
     ('Guitarra acustica Martin D-28', 'Strumenti musicali', 'chitarra_acustica_martin_d28.jpg', 'Chitarra acustica di alta qualità con suono ricco e proiezione potente.'),
     ('Libro "Il signore degli anelli" di J.R.R. Tolkien', 'Libri', 'libro_il_signore_degli_anelli.jpg', 'Celebre romanzo fantasy che narra le avventure nella Terra di Mezzo.'),
-    ('Aspirapolvere robot Roomba i7+', 'Elettrodomestici', 'aspirapolvere_robot_roomba_i7.jpg', 'Aspirapolvere robot con mappatura intelligente e sistema di pulizia avanzato.'),
+    ('Aspirapolvere robot Roomba i7+', 'Informatica', 'aspirapolvere_robot_roomba_i7.jpg', 'Aspirapolvere robot con mappatura intelligente e sistema di pulizia avanzato.'),
     ('Occhiali da sole Ray-Ban Aviator', 'Accessori', 'occhiali_sole_rayban_aviator.jpg', 'Iconici occhiali da sole con montatura sottile e lenti a goccia.'),
     ('Gioco da tavolo Catan', 'Giochi', 'gioco_tavolo_catan.jpg', 'Classico gioco strategico in cui i giocatori competono per colonizzare l isola di Catan.'),
-    ('Lavatrice Samsung Eco Bubble', 'Elettrodomestici', 'lavatrice_samsung_eco_bubble.jpg', 'Lavatrice con tecnologia Eco Bubble per un lavaggio efficace e delicato.'),
-    ('Auricolari senza fili Apple AirPods Pro', 'Elettronica', 'auricolari_apple_airpods_pro.jpg', 'Auricolari wireless con cancellazione attiva del rumore e suono di alta qualità.'),
+    ('Lavatrice Samsung Eco Bubble', 'Informatica', 'lavatrice_samsung_eco_bubble.jpg', 'Lavatrice con tecnologia Eco Bubble per un lavaggio efficace e delicato.'),
+    ('Auricolari senza fili Apple AirPods Pro', 'Informatica', 'auricolari_apple_airpods_pro.jpg', 'Auricolari wireless con cancellazione attiva del rumore e suono di alta qualità.'),
     ('Felpa con cappuccio Adidas Originals', 'Abbigliamento', 'felpa_adidas_originals.jpg', 'Comoda felpa con cappuccio e logo Adidas per un look sportivo.'),
-    ('Telecomando universale Logitech Harmony Elite', 'Elettrodomestici', 'telecomando_universale_logitech_harmony_elite.jpg', 'Telecomando avanzato per il controllo di tutti i dispositivi audio e video.'),
+    ('Telecomando universale Logitech Harmony Elite', 'Informatica', 'telecomando_universale_logitech_harmony_elite.jpg', 'Telecomando avanzato per il controllo di tutti i dispositivi audio e video.'),
     ('Set di pentole in acciaio inox Lagostina', 'Cucina', 'pentole_acciaio_inox_lagostina.jpg', 'Set di pentole di alta qualità in acciaio inox per cucinare con precisione e stile.');
 
 -- Popolazione della tabella "fasce"

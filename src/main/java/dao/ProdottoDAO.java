@@ -2,13 +2,16 @@ package dao;
 
 import beans.Prodotto;
 import beans.Visualizza;
+import utils.Constants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProdottoDAO {
 
@@ -30,6 +33,31 @@ public class ProdottoDAO {
                 }
             }
         }
+    }
+
+    public void completeListVisualized(List<Prodotto> prodotti) throws SQLException {
+        String query = "SELECT * FROM prodotto join vende on prodotto.codice_prodotto = vende.codice_prodotto WHERE vende.sconto > 0 AND prodotto.categoria = ? ORDER BY vende.sconto DESC";
+        PreparedStatement pstatement = con.prepareStatement(query);
+        pstatement.setString(1, Constants.DEFAULT_CATEGORY);
+        ResultSet result = pstatement.executeQuery();
+        while (result.next()){
+            Prodotto prodotto = mapRowToProdotto(result);
+            prodotti.add(prodotto);
+        }
+
+        for (int i = 0; i < prodotti.size(); i++){
+            if (i >= Constants.NUMBER_HOME_PRODUCT){
+                prodotti.remove(i);
+                continue;
+            }
+            for (int j = 0; j < i; j++){
+                if (prodotti.get(i).getCodiceProdotto() == prodotti.get(j).getCodiceProdotto()){
+                    prodotti.remove(j);
+                    break;
+                }
+            }
+        }
+
     }
 
     public List<Prodotto> searchByWord (String word) throws SQLException {

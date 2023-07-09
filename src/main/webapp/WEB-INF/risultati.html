@@ -36,6 +36,26 @@
             display: flex;
             justify-content: center;
         }
+        .bottonePagina {
+            display: inline-block;
+            justify-content: center;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .bottoniPagina {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
         table {
             margin: 0 auto;
             border-collapse: collapse;
@@ -147,17 +167,22 @@
     </div>
     </tbody>
 </table>
-    <div>
-        <form action="Ricerca" method="GET" th:if="${posizione>0}">
-            <input type="hidden" id="word-" name="word" th:value="${word}">
-            <input type="hidden" id="posizione-" name="posizione" th:value="${posizione}-5">
-            <button>Pagina Precedente</button>
-        </form>
-        <form action="Ricerca" method="GET" th:if="${!isLastPage}">
-            <input type="hidden" id="word+" name="word" th:value="${word}">
-            <input type="hidden" id="posizione+" name="posizione" th:value="${posizione}+5">
-            <button>Pagina Successiva</button>
-        </form>
+    <div class="bottoniPagina">
+        <div class="bottonePagina">
+            <form action="Ricerca" method="GET" th:if="${posizione>0}">
+                <input type="hidden" id="word-" name="word" th:value="${word}">
+                <input type="hidden" id="posizione-" name="posizione" th:value="${posizione}-5">
+                <button>Pagina Precedente</button>
+            </form>
+        </div>
+
+        <div class="bottonePagina">
+            <form action="Ricerca" method="GET" th:if="${!isLastPage}">
+                <input type="hidden" id="word+" name="word" th:value="${word}">
+                <input type="hidden" id="posizione+" name="posizione" th:value="${posizione}+5">
+                <button>Pagina Successiva</button>
+            </form>
+        </div>
     </div>
 </div>
 <span th:unless="${risultati.size()>0}">
