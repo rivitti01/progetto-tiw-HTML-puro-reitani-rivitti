@@ -35,29 +35,33 @@ public class ProdottoDAO {
         }
     }
 
-    public void completeListVisualized(List<Prodotto> prodotti) throws SQLException {
+    public List<Prodotto> completeListVisualized(List<Prodotto> prodotti) throws SQLException {
+        List<Prodotto> moreProducts = new ArrayList<>();
         String query = "SELECT * FROM prodotto join vende on prodotto.codice_prodotto = vende.codice_prodotto WHERE vende.sconto > 0 AND prodotto.categoria = ? ORDER BY vende.sconto DESC";
         PreparedStatement pstatement = con.prepareStatement(query);
         pstatement.setString(1, Constants.DEFAULT_CATEGORY);
         ResultSet result = pstatement.executeQuery();
         while (result.next()){
             Prodotto prodotto = mapRowToProdotto(result);
-            prodotti.add(prodotto);
+            moreProducts.add(prodotto);
         }
 
         for (int i = 0; i < prodotti.size(); i++){
-            if (i >= Constants.NUMBER_HOME_PRODUCT){
-                prodotti.remove(i);
-                continue;
-            }
-            for (int j = 0; j < i; j++){
-                if (prodotti.get(i).getCodiceProdotto() == prodotti.get(j).getCodiceProdotto()){
-                    prodotti.remove(j);
+            for (int j = 0; j< moreProducts.size(); j++){
+                if (prodotti.get(i).getCodiceProdotto() == moreProducts.get(j).getCodiceProdotto()){
+                    moreProducts.remove(j);
                     break;
                 }
             }
         }
+        prodotti.addAll(moreProducts);
 
+        while(prodotti.size() > Constants.NUMBER_HOME_PRODUCT){
+            prodotti.remove(Constants.NUMBER_HOME_PRODUCT);
+        }
+
+
+        return prodotti;
     }
 
     public List<Prodotto> searchByWord (String word) throws SQLException {

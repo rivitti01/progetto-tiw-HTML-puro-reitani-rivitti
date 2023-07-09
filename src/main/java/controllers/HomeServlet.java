@@ -66,7 +66,7 @@ public class HomeServlet extends ServletPadre {
             visualizza = visualizzaDAO.getLAstFive(email);
             prodotti = prodottoDAO.getFiveVisualizedProduct(visualizza);
             if (prodotti.size()< Constants.NUMBER_HOME_PRODUCT){
-                prodottoDAO.completeListVisualized(prodotti);
+                prodotti = prodottoDAO.completeListVisualized(prodotti);
             }
             return prodotti;
         } catch (SQLException e) {
