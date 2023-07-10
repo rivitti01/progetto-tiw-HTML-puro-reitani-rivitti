@@ -2,6 +2,7 @@ package dao;
 
 import beans.Prodotto;
 import beans.Visualizza;
+import com.sun.source.tree.WhileLoopTree;
 import utils.Constants;
 
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class ProdottoDAO {
 
     public List<Prodotto> completeListVisualized(List<Prodotto> prodotti) throws SQLException {
         List<Prodotto> moreProducts = new ArrayList<>();
-        String query = "SELECT * FROM prodotto join vende on prodotto.codice_prodotto = vende.codice_prodotto WHERE vende.sconto > 0 AND prodotto.categoria = ? ORDER BY vende.sconto DESC";
+        String query = "SELECT distinct(prodotto.codice_prodotto),prodotto.nome_prodotto,prodotto.categoria,prodotto.descrizione,prodotto.foto FROM prodotto join vende on prodotto.codice_prodotto = vende.codice_prodotto WHERE vende.sconto > 0 AND prodotto.categoria = ? ORDER BY RAND() LIMIT 5";
         PreparedStatement pstatement = con.prepareStatement(query);
         pstatement.setString(1, Constants.DEFAULT_CATEGORY);
         ResultSet result = pstatement.executeQuery();
@@ -50,7 +51,7 @@ public class ProdottoDAO {
             for (int j = 0; j< moreProducts.size(); j++){
                 if (prodotti.get(i).getCodiceProdotto() == moreProducts.get(j).getCodiceProdotto()){
                     moreProducts.remove(j);
-                    break;
+                    j--;
                 }
             }
         }
