@@ -44,10 +44,18 @@ public class LoginServlet extends ServletPadre {
 
         String path;
         if (checkLogin) {
-            // Mostra la pagina di benvenuto
+
+            // resetto la sessione esistente
             HttpSession session = request.getSession();
+            while(session.getAttributeNames().hasMoreElements()){
+                session.removeAttribute(session.getAttributeNames().nextElement());
+            }
+
+            //aggiorno la sessione
             session.setAttribute("email", email);
             path = getServletContext().getContextPath() + "/Home";
+
+            // Mostra la pagina di benvenuto
             response.sendRedirect(path);
         } else {
             // Mostra un messaggio di errore
