@@ -31,10 +31,6 @@ public class OrdiniServlet extends ServletPadre {
         Map<Ordine,List<Informazioni>> ordini;
         try {
             ordini = getOrdini(email);
-            if (ordini == null) {
-                ctx.setVariable("error", "No orders found");
-                return;
-            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

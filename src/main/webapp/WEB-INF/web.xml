@@ -14,7 +14,7 @@
   </context-param>
   <context-param>
     <param-name>dbPassword</param-name>
-    <param-value>francesco</param-value> <!-- password del database -->
+    <param-value>RootRei27!!</param-value> <!-- password del database -->
   </context-param>
   <context-param>
     <param-name>dbDriver</param-name>
@@ -22,6 +22,6 @@
   </context-param>
   <context-param>
     <param-name>dbImages</param-name>
-    <param-value>/Users/francescorivitti//Desktop/tiw/images</param-value> <!-- path della cartella immagini -->
+    <param-value>~/Desktop/tiw/images</param-value> <!-- path della cartella immagini -->
   </context-param>
 </web-app>
