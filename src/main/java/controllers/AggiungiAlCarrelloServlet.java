@@ -1,11 +1,10 @@
 package controllers;
 
-import beans.CarrelloFornitore;
+import utils.CarrelloFornitore;
 import dao.CarrelloFornitoreDAO;
 import dao.FornitoreDAO;
 import dao.ProdottoDAO;
 import dao.VendeDAO;
-import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
 import java.sql.SQLException;

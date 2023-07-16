@@ -29,7 +29,6 @@ public class HomeServlet extends ServletPadre {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Controlla se l'utente è già loggato, in caso positivo va direttamente alla home
         HttpSession session = request.getSession();
-        String basePath = getServletContext().getInitParameter("dbImages");
 
 
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());

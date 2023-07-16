@@ -2,7 +2,7 @@ package controllers;
 
 import javax.servlet.annotation.WebServlet;
 
-import beans.CarrelloFornitore;
+import utils.CarrelloFornitore;
 import beans.Fasce;
 import beans.Fornitore;
 import beans.Prodotto;

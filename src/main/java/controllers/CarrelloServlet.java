@@ -1,6 +1,6 @@
 package controllers;
 
-import beans.CarrelloFornitore;
+import utils.CarrelloFornitore;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
