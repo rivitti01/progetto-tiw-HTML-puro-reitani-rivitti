@@ -45,7 +45,7 @@ create table IF NOT EXISTS tiw.visualizza(
     codice_prodotto int,
     data timestamp default current_timestamp,
     primary key (email, codice_prodotto),
-    foreign key (email) references utente(email),
+    foreign key (email) references utente(email) on delete cascade on update cascade,
     foreign key (codice_prodotto) references prodotto(codice_prodotto) on delete cascade on update cascade
 );
 create table IF NOT EXISTS tiw.vende(
