@@ -62,7 +62,6 @@ create table IF NOT EXISTS tiw.informazioni(
     codice_ordine int not null,
     codice_prodotto int not null,
     nome VARCHAR(255) not null,
-    foto LONGBLOB not null,
     quantita int not null check (quantita > 0),
     prezzo_unitario float not null check (prezzo_unitario > 0),
     primary key (codice_ordine, codice_prodotto),
@@ -167,13 +166,13 @@ VALUES (1, 1, 100, 0.1),
        (3,13,200,0);
 
 -- Popolazione della tabella "informazioni"
-INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, foto, quantita, prezzo_unitario)
+INSERT INTO tiw.informazioni (codice_ordine, codice_prodotto, nome, quantita, prezzo_unitario)
 VALUES
-    (1, 1, 'Smartphone Galaxy S21', 'smartphone_galaxy_s21.jpg', 2, 90),
-    (1, 2, 'Laptop ThinkPad X1 Carbon', 'laptop_thinkpad_x1_carbon.jpg', 1, 1377.5),
-    (2, 3, 'Scarpe da running Nike Air Zoom Pegasus 38', 'scarpe_running_nike_pegasus_38.jpg', 1, 48),
-    (2, 4, 'Orologio automatico Rolex Submariner', 'orologio_rolex_submariner.jpg', 1, 16000),
-    (3, 5, 'Macchina fotografica Canon EOS R5', 'macchina_fotografica_canon_eos_r5.jpg', 1, 850);
+    (1, 1, 'Smartphone Galaxy S21', 2, 90),
+    (1, 2, 'Laptop ThinkPad X1 Carbon', 1, 1377.5),
+    (2, 3, 'Scarpe da running Nike Air Zoom Pegasus 38', 1, 48),
+    (2, 4, 'Orologio automatico Rolex Submariner', 1, 16000),
+    (3, 5, 'Macchina fotografica Canon EOS R5', 1, 850);
 
 
 

@@ -72,7 +72,6 @@ public class CreaOrdineServlet extends ServletPadre{
                 Informazioni informazione = new Informazioni();
                 informazione.setCodiceOrdine(codiceOrdine);
                 informazione.setCodiceProdotto(prodotto.getCodiceProdotto());
-                informazione.setFoto(prodotto.getFoto());
                 informazione.setNome(prodotto.getNomeProdotto());
                 informazione.setQuantità(carrello.get(IDFornitore).getProdotti().get(prodotto));
                 informazione.setPrezzoUnitario(new VendeDAO(connection).getPrice(prodotto.getCodiceProdotto(), IDFornitore));
