@@ -27,14 +27,14 @@ public class HomeServlet extends ServletPadre {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Controlla se l'utente è già loggato, in caso positivo va direttamente alla home
         HttpSession session = request.getSession();
-
-
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
+
+
         List<Prodotto> products;
         try {
+            // Preleva i prodotti dal DB
             products = getFiveProducts(email);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,8 +62,13 @@ public class HomeServlet extends ServletPadre {
         List<Visualizza> visualizza = null;
         List<Prodotto> prodotti;
         try {
+            // Preleva gli ultimi 5 prodotti visiti dal DB
             visualizza = visualizzaDAO.getLAstFive(email);
+
+            //prendo i dati dei prodotti
             prodotti = prodottoDAO.getFiveVisualizedProduct(visualizza);
+
+            //se i prodotti sono meno di 5 prendo completo la lista con dei prodotti scontati
             if (prodotti.size()< Constants.NUMBER_HOME_PRODUCT){
                 prodotti = prodottoDAO.completeListVisualized(prodotti);
             }
