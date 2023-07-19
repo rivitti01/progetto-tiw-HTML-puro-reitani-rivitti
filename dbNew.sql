@@ -84,7 +84,9 @@ VALUES ('Fornitore A', 4, 130, 5),
 INSERT INTO tiw.utente (email, nome, cognome, indirizzo, password)
 VALUES ('utente1@example.com', 'Mario', 'Rossi', 'Via Roma 1', 'password1'),
        ('utente2@example.com', 'Laura', 'Verdi', 'Via Milano 2', 'password2'),
-       ('utente3@example.com', 'Giovanni', 'Bianchi', 'Via Napoli 3', 'password3');
+       ('utente3@example.com', 'Giovanni', 'Bianchi', 'Via Napoli 3', 'password3'),
+       ('utente4@example.com', 'Ambrogio', 'Esposito', 'Via Brombeis 3', 'password4');
+
 
 -- Popolazione della tabella "prodotto"
 INSERT INTO tiw.prodotto (nome_prodotto, categoria, foto, descrizione)
