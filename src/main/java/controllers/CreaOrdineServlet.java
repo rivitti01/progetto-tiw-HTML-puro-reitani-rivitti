@@ -54,6 +54,7 @@ public class CreaOrdineServlet extends ServletPadre{
             connection.setAutoCommit(false);
             Ordine ordine = new Ordine();
             ordine.setNomeFornitore(carrello.get(IDFornitore).getFornitore().getNomeFornitore());
+            ordine.setCodiceFornitore(IDFornitore);
             ordine.setEmail(session.getAttribute("email").toString());
             ordine.setDataSpedizione(new Date(System.currentTimeMillis()+ 259200000));
             ordine.setPrezzoTotale(carrello.get(IDFornitore).getPrezzoTotaleProdotti() + carrello.get(IDFornitore).getPrezzoSpedizione());

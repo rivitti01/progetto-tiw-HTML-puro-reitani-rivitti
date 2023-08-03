@@ -25,12 +25,14 @@ CREATE TABLE IF NOT EXISTS tiw.prodotto(
 );
 CREATE TABLE IF NOT EXISTS tiw.ordini (
     codice_ordine INT PRIMARY KEY AUTO_INCREMENT,
+    codice_fornitore int,
     nome_fornitore VARCHAR(255),
     data_spedizione DATE NOT NULL,
     indirizzo_spedizione VARCHAR(255) NOT NULL,
     prezzo_totale FLOAT NOT NULL CHECK (prezzo_totale > 0),
     email VARCHAR(255),
-    FOREIGN KEY (email) REFERENCES utente(email) ON DELETE NO ACTION ON UPDATE CASCADE
+    FOREIGN KEY (email) REFERENCES utente(email) ON DELETE NO ACTION ON UPDATE CASCADE,
+    foreign key (codice_fornitore) references fornitore(codice_fornitore) on delete no action on update cascade
 );
 CREATE TABLE IF NOT EXISTS tiw.fasce(
     codice_fornitore int not null,
@@ -122,10 +124,10 @@ VALUES (1, 1, 10, 30),
        (3,10,15,10);
 
 -- Popolazione della tabella "ordini"
-INSERT INTO tiw.ordini (nome_fornitore, data_spedizione,indirizzo_spedizione, prezzo_totale, email)
-VALUES ('Fornitore A', '2023-05-20','Via Roma 1', 1587.5, 'utente1@example.com'),
-       ('Fornitore B', '2023-05-21','Via Milano 2', 16098, 'utente2@example.com'),
-       ('Fornitore B', '2023-05-22','Via Napoli 3', 875, 'utente3@example.com');
+INSERT INTO tiw.ordini (nome_fornitore, codice_fornitore, data_spedizione,indirizzo_spedizione, prezzo_totale, email)
+VALUES ('Fornitore A',1, '2023-05-20','Via Roma 1', 1587.5, 'utente1@example.com'),
+       ('Fornitore B',2, '2023-05-21','Via Milano 2', 16098, 'utente2@example.com'),
+       ('Fornitore B',2, '2023-05-22','Via Napoli 3', 875, 'utente3@example.com');
 
 -- Popolazione della tabella "visualizza"
 INSERT INTO tiw.visualizza (email, codice_prodotto, data)
