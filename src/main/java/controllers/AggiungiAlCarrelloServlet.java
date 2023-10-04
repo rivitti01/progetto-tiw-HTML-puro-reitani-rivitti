@@ -119,6 +119,15 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
             }
         }
 
+        //controllo che il prodotto non sia già nel carrello
+        /*if(carrelloFornitore.getProdotti().containsKey()){
+            //se è presente aggiorno la quantità
+            int veccchiaQuantita = carrelloFornitore.getProdotti().get();
+            carrelloFornitore.getProdotti().remove();
+            carrelloFornitore.getProdotti().put();
+        }
+        */
+
         //aggiungo il prodotto al carrello
         CarrelloFornitoreDAO carrelloFornitoreDAO = new CarrelloFornitoreDAO(carrelloFornitore);
         try {
