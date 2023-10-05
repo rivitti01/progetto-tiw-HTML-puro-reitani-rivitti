@@ -123,10 +123,18 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         //controllo che il prodotto non sia già nel carrello
         try {
             Prodotto prodotto = prodottoDAO.getInformation(IDProdotto);
-            if(carrelloFornitore.getProdotti().containsKey(prodotto)){
+            boolean trovato = false;
+            int veccchiaQuantita = 0;
+            for (Prodotto p : carrelloFornitore.getProdotti().keySet()) {
+                if (p.getCodiceProdotto()==(prodotto.getCodiceProdotto())) {
+                    veccchiaQuantita = carrelloFornitore.getProdotti().get(p);
+                    carrelloFornitore.getProdotti().remove(p);
+                    trovato = true;
+                    break;
+                }
+            }
+            if(trovato){
                 //se è presente aggiorno la quantità
-                int veccchiaQuantita = carrelloFornitore.getProdotti().get(prodotto);
-                carrelloFornitore.getProdotti().remove(prodotto);
                 carrelloFornitore.getProdotti().put(prodotto, veccchiaQuantita + quantità);
             }else{
                 //altrimenti lo aggiungo al carrello
