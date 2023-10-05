@@ -10,7 +10,6 @@ import dao.VendeDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +23,7 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
     }
 
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
@@ -72,20 +71,20 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
             throwables.printStackTrace();
         }
 
-        //controllo che la quantità sia un numero
-        int quantità;
+        //controllo che la quantita sia un numero
+        int quantita;
         try {
-            quantità = Integer.parseInt(request.getParameter("quantità"));
+            quantita = Integer.parseInt(request.getParameter("quantita"));
         } catch (NumberFormatException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("la quantità non è un numero");
+            response.getWriter().println("la quantita non è un numero");
             return;
         }
 
-        //controllo che la quantità sia maggiore di 0
-        if(quantità <= 0){
+        //controllo che la quantita sia maggiore di 0
+        if(quantita <= 0){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("la quantità non può essere minore di 1");
+            response.getWriter().println("la quantita non può essere minore di 1");
             return;
         }
 
@@ -104,7 +103,7 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
         HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");
         if (carrello == null) {
-            carrello = new HashMap<Integer, CarrelloFornitore>();
+            carrello = new HashMap<>();
         }
 
         //prendo il carrello del fornitore, se non c'è lo creo
@@ -134,12 +133,12 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
                 }
             }
             if(trovato){
-                //se è presente aggiorno la quantità
-                carrelloFornitore.getProdotti().put(prodotto, veccchiaQuantita + quantità);
+                //se è presente aggiorno la quantita
+                carrelloFornitore.getProdotti().put(prodotto, veccchiaQuantita + quantita);
             }else{
                 //altrimenti lo aggiungo al carrello
                 CarrelloFornitoreDAO carrelloFornitoreDAO = new CarrelloFornitoreDAO(carrelloFornitore);
-                carrelloFornitoreDAO.addProdotto(prodottoDAO.getInformation(IDProdotto), quantità, connection);
+                carrelloFornitoreDAO.addProdotto(prodottoDAO.getInformation(IDProdotto), quantita, connection);
             }
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

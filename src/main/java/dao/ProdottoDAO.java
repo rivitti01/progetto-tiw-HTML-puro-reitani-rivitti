@@ -2,7 +2,6 @@ package dao;
 
 import beans.Prodotto;
 import beans.Visualizza;
-import com.sun.source.tree.WhileLoopTree;
 import utils.Constants;
 
 import java.sql.Connection;
@@ -10,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ProdottoDAO {
 
@@ -23,9 +20,9 @@ public class ProdottoDAO {
 
     public Prodotto getInformation(int codiceProdotto) throws SQLException {
         String query = "SELECT * FROM prodotto WHERE codice_prodotto = ?";
-        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setInt(1, codiceProdotto);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return null;
                 else {
@@ -47,9 +44,9 @@ public class ProdottoDAO {
             moreProducts.add(prodotto);
         }
 
-        for (int i = 0; i < prodotti.size(); i++){
-            for (int j = 0; j< moreProducts.size(); j++){
-                if (prodotti.get(i).getCodiceProdotto() == moreProducts.get(j).getCodiceProdotto()){
+        for (Prodotto prodotto : prodotti) {
+            for (int j = 0; j < moreProducts.size(); j++) {
+                if (prodotto.getCodiceProdotto() == moreProducts.get(j).getCodiceProdotto()) {
                     moreProducts.remove(j);
                     j--;
                 }
@@ -78,10 +75,10 @@ public class ProdottoDAO {
     public List<Prodotto> getFiveVisualizedProduct(List<Visualizza> visualizzati) throws SQLException {
         List<Prodotto> prodotti = new ArrayList<>();
         String query = "SELECT * FROM prodotto WHERE codice_prodotto = ?";
-        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
             for (Visualizza visualizza : visualizzati) {
                 pstatement.setInt(1, visualizza.getCodiceProdotto());
-                try (ResultSet result = pstatement.executeQuery();) {
+                try (ResultSet result = pstatement.executeQuery()) {
                     if (!result.isBeforeFirst()) // no results, credential check failed
                         return null;
                     else {

@@ -2,9 +2,7 @@ package dao;
 
 import beans.Informazioni;
 import beans.Ordine;
-import beans.Prodotto;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 
@@ -91,7 +89,7 @@ public class OrdineDAO {
         Informazioni informazione = new Informazioni();
         informazione.setCodiceProdotto(result.getInt("codice_prodotto"));
         informazione.setNome(result.getString("nome"));
-        informazione.setQuantità(result.getInt("quantita"));
+        informazione.setQuantita(result.getInt("quantita"));
         return informazione;
     }
 

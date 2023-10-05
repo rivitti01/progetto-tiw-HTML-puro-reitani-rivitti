@@ -18,7 +18,7 @@ public class FornitoreDAO {
         String query = "SELECT * FROM fornitore WHERE codice_fornitore = ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setInt(1, codiceFornitore);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return null;
                 else {

@@ -7,15 +7,9 @@ import dao.VisualizzaDAO;
 import org.thymeleaf.context.WebContext;
 import utils.Constants;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +20,7 @@ public class HomeServlet extends ServletPadre {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
@@ -59,7 +53,7 @@ public class HomeServlet extends ServletPadre {
     private List<Prodotto> getFiveProducts(String email) throws SQLException {
         VisualizzaDAO visualizzaDAO = new VisualizzaDAO(connection);
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
-        List<Visualizza> visualizza = null;
+        List<Visualizza> visualizza;
         List<Prodotto> prodotti;
         try {
             // Preleva gli ultimi 5 prodotti visiti dal DB

@@ -9,7 +9,6 @@ import dao.OrdineDAO;
 import dao.UtenteDAO;
 import dao.VendeDAO;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +25,7 @@ public class CreaOrdineServlet extends ServletPadre{
         super();
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession();
 
@@ -74,7 +73,7 @@ public class CreaOrdineServlet extends ServletPadre{
                 informazione.setCodiceOrdine(codiceOrdine);
                 informazione.setCodiceProdotto(prodotto.getCodiceProdotto());
                 informazione.setNome(prodotto.getNomeProdotto());
-                informazione.setQuantità(carrello.get(IDFornitore).getProdotti().get(prodotto));
+                informazione.setQuantita(carrello.get(IDFornitore).getProdotti().get(prodotto));
                 informazione.setPrezzoUnitario(new VendeDAO(connection).getPrice(prodotto.getCodiceProdotto(), IDFornitore));
 
                 //inserisco l'informazione nel database

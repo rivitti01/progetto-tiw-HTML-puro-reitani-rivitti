@@ -6,7 +6,7 @@ public class Informazioni {
 
     private int codiceProdotto;
     private int codiceOrdine;
-    private int quantità;
+    private int quantita;
     private float prezzoUnitario;
     private String nome;
     private Blob foto;
@@ -28,12 +28,12 @@ public class Informazioni {
         this.codiceOrdine = codiceOrdine;
     }
 
-    public int getQuantità() {
-        return quantità;
+    public int getQuantita() {
+        return quantita;
     }
 
-    public void setQuantità(int quantità) {
-        this.quantità = quantità;
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 
     public float getPrezzoUnitario() {

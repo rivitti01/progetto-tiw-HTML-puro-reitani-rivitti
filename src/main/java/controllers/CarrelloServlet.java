@@ -5,7 +5,6 @@ import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
 import java.util.HashMap;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ public class CarrelloServlet extends ServletPadre{
     }
 
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 

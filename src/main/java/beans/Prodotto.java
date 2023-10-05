@@ -1,6 +1,6 @@
 package beans;
 
-import java.beans.Beans;
+
 import java.sql.Blob;
 
 public class Prodotto {

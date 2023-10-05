@@ -6,7 +6,6 @@ import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,7 @@ public class LoginServlet extends ServletPadre {
 
 
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String error;
@@ -35,7 +34,7 @@ public class LoginServlet extends ServletPadre {
         }
 
         // Verifica le credenziali nel database
-        boolean checkLogin = false;
+        boolean checkLogin;
         try {
             checkLogin = checkCredentials(email, password);
         } catch (SQLException e) {
@@ -69,12 +68,7 @@ public class LoginServlet extends ServletPadre {
         UtenteDAO checkCredentials = new UtenteDAO(connection);
         Utente utente = checkCredentials.checkCredentials(email, password);
         // Effettua la verifica delle credenziali nel database
-         if(utente != null){
-             return true;
-         }
-         else{
-             return false;
-         }
+        return utente != null;
     }
 
 

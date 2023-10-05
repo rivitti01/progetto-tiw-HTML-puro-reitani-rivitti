@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +17,7 @@ public class EspandiServlet extends ServletPadre{
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //controlla che ci sia la parola
         String word = request.getParameter("word");
@@ -129,14 +128,14 @@ public class EspandiServlet extends ServletPadre{
 
 
             //creo il path per mandare alla servlet Ricerca tutti i dati
-        String path = getServletContext().getContextPath() + "/Ricerca?word=" + word + "&posizione=" + posizione;
-        for(int i = 0;i<risultati.size();i++){
-            if(risultati.get(i).isEspandere()){
-                path += "&codiceProdottoEspanso=" + risultati.get(i).getCodiceProdotto();
+        StringBuilder path = new StringBuilder(getServletContext().getContextPath() + "/Ricerca?word=" + word + "&posizione=" + posizione);
+        for (Risultato risultato : risultati) {
+            if (risultato.isEspandere()) {
+                path.append("&codiceProdottoEspanso=").append(risultato.getCodiceProdotto());
             }
         }
 
-        response.sendRedirect(path);
+        response.sendRedirect(path.toString());
 
     }
 

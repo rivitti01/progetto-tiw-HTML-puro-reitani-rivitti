@@ -16,13 +16,13 @@ public class FasceDAO {
         this.con = connection;
     }
 
-   public int getPrice(int codiceFornitore, int quantità)throws SQLException{
+   public int getPrice(int codiceFornitore, int quantita)throws SQLException{
         String query = "SELECT prezzo FROM fasce WHERE codice_fornitore = ? AND min <= ? AND max >= ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setInt(1, codiceFornitore);
-            pstatement.setInt(2, quantità);
-            pstatement.setInt(3, quantità);
-            try (ResultSet result = pstatement.executeQuery();) {
+            pstatement.setInt(2, quantita);
+            pstatement.setInt(3, quantita);
+            try (ResultSet result = pstatement.executeQuery()) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return -1;
                 else {
@@ -34,11 +34,11 @@ public class FasceDAO {
     }
 
     public List<Fasce> getFasce (int codiceFornitore) throws SQLException{
-        List<Fasce> fasce = new ArrayList<Fasce>();
+        List<Fasce> fasce = new ArrayList<>();
         String query = "SELECT * FROM fasce WHERE codice_fornitore = ?";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setInt(1, codiceFornitore);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 while (result.next()) {
                     Fasce fascia = new Fasce();
                     fascia.setCodiceFornitore(result.getInt("codice_fornitore"));

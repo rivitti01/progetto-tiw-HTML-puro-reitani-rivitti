@@ -1,12 +1,8 @@
 package dao;
 
 import beans.Informazioni;
-import beans.Ordine;
-import beans.Prodotto;
 
-import javax.swing.*;
 import java.sql.*;
-import java.util.*;
 
 public class InformazioniDAO {
 
@@ -21,7 +17,7 @@ public class InformazioniDAO {
             pstatement.setInt(1, informazione.getCodiceOrdine());
             pstatement.setInt(2, informazione.getCodiceProdotto());
             pstatement.setString(3, informazione.getNome());
-            pstatement.setInt(4, informazione.getQuantità());
+            pstatement.setInt(4, informazione.getQuantita());
             pstatement.setFloat(5, informazione.getPrezzoUnitario());
             pstatement.executeUpdate();
 

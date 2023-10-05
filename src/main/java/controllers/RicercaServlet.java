@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,7 +26,7 @@ public class RicercaServlet extends ServletPadre {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
 
         //controllo che i codici dei prodotti espansi siano validi
         String[] scodiciDaEspandere = request.getParameterValues("codiceProdottoEspanso");
@@ -116,7 +115,6 @@ public class RicercaServlet extends ServletPadre {
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         FasceDAO fasceDAO = new FasceDAO(connection);
         VendeDAO vendeDAO = new VendeDAO(connection);
-        FornitoreDAO fornitoreDAO = new FornitoreDAO(connection);
 
         HashMap<Prodotto, List<Fornitore>> fornitoreMap = new HashMap<>();
         HashMap < Fornitore, List<Fasce>> fasceMap = new HashMap<>();
@@ -159,7 +157,7 @@ public class RicercaServlet extends ServletPadre {
         //Verifico che già esista un carrello nella sessione. Se non esiste lo creo
         HashMap<Integer, CarrelloFornitore> carrello = (HashMap<Integer, CarrelloFornitore>) session.getAttribute("carrello");
         if (carrello == null) {
-            carrello = new HashMap<Integer, CarrelloFornitore>();
+            carrello = new HashMap<>();
         }
         ctx.setVariable("carrello", carrello);
 

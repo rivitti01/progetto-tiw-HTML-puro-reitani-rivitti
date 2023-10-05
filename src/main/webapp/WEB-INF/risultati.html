@@ -157,7 +157,7 @@
                 <td th:text="${prezzoUnitarioMap.get(fornitore).get(risultato)}+ '$'"></td>
                 <td colspan="2">
                     <form action="AggiungiAlCarrello" method="POST">
-                        <input type="text" id="quantità" name="quantità" placeholder="quantità" required >
+                        <input type="text" id="quantita" name="quantita" placeholder="quantita" required >
                         <input type="hidden" id="codiceProdotto" name="codiceProdotto" th:value="${risultato.codiceProdotto}">
                         <input type="hidden" id="codiceFornitore" name="codiceFornitore" th:value="${fornitore.codiceFornitore}">
                         <button>Aggiungi al carrello</button>

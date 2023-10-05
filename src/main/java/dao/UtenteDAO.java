@@ -14,10 +14,10 @@ public class UtenteDAO {
     }
     public Utente checkCredentials(String email, String password) throws SQLException {
         String query = "SELECT * FROM utente WHERE email = ? AND password =?";
-        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
             pstatement.setString(2, password);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return null;
                 else {
@@ -36,9 +36,9 @@ public class UtenteDAO {
 
     public String getIndirizzoByEmail(String email) throws SQLException {
         String query = "SELECT indirizzo FROM utente WHERE email = ?";
-        try (PreparedStatement pstatement = con.prepareStatement(query);) {
+        try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 if (!result.isBeforeFirst()) // no results, credential check failed
                     return null;
                 else {

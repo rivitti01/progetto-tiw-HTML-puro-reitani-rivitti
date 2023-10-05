@@ -1,7 +1,6 @@
 package dao;
 
 import beans.Visualizza;
-import utils.Constants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,7 @@ public class VisualizzaDAO {
         String query = "SELECT * FROM visualizza WHERE email = ? ORDER BY data DESC LIMIT 5";
         try (PreparedStatement pstatement = con.prepareStatement(query)) {
             pstatement.setString(1, email);
-            try (ResultSet result = pstatement.executeQuery();) {
+            try (ResultSet result = pstatement.executeQuery()) {
                 while (result.next()) {
                     Visualizza visualizza = mapRowToVisualizza(result);
                     visualizzazioni.add(visualizza);

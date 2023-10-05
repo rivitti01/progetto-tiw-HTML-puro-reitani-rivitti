@@ -2,11 +2,9 @@ package controllers;
 
 import beans.Informazioni;
 import beans.Ordine;
-import beans.Prodotto;
 import dao.OrdineDAO;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @WebServlet("/Ordini")
 public class OrdiniServlet extends ServletPadre {
@@ -24,7 +21,7 @@ public class OrdiniServlet extends ServletPadre {
     }
 
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         String email = (String) session.getAttribute("email");
