@@ -1,5 +1,6 @@
 package controllers;
 
+import beans.Prodotto;
 import utils.CarrelloFornitore;
 import dao.CarrelloFornitoreDAO;
 import dao.FornitoreDAO;
@@ -120,18 +121,18 @@ public class AggiungiAlCarrelloServlet extends ServletPadre{
         }
 
         //controllo che il prodotto non sia già nel carrello
-        /*if(carrelloFornitore.getProdotti().containsKey()){
-            //se è presente aggiorno la quantità
-            int veccchiaQuantita = carrelloFornitore.getProdotti().get();
-            carrelloFornitore.getProdotti().remove();
-            carrelloFornitore.getProdotti().put();
-        }
-        */
-
-        //aggiungo il prodotto al carrello
-        CarrelloFornitoreDAO carrelloFornitoreDAO = new CarrelloFornitoreDAO(carrelloFornitore);
         try {
-            carrelloFornitoreDAO.addProdotto(prodottoDAO.getInformation(IDProdotto), quantità, connection);
+            Prodotto prodotto = prodottoDAO.getInformation(IDProdotto);
+            if(carrelloFornitore.getProdotti().containsKey(prodotto)){
+                //se è presente aggiorno la quantità
+                int veccchiaQuantita = carrelloFornitore.getProdotti().get(prodotto);
+                carrelloFornitore.getProdotti().remove(prodotto);
+                carrelloFornitore.getProdotti().put(prodotto, veccchiaQuantita + quantità);
+            }else{
+                //altrimenti lo aggiungo al carrello
+                CarrelloFornitoreDAO carrelloFornitoreDAO = new CarrelloFornitoreDAO(carrelloFornitore);
+                carrelloFornitoreDAO.addProdotto(prodottoDAO.getInformation(IDProdotto), quantità, connection);
+            }
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println("Errore nel caricamento del prodotto nel carrello");
